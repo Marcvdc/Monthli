@@ -1,14 +1,15 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "marcvdc/monthli",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Privacy-first portfolio tracker. Import your broker CSV (e.g. DEGIRO), fetch daily prices automatically, and get clear monthly performance reports (MoM %, inflows/outflows, dividends). Built with Laravel + Filament.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "dompdf/dompdf": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
