@@ -13,6 +13,8 @@ class Portfolio extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'snapshot_day',
+        'base_currency',
     ];
 
     public function user()
