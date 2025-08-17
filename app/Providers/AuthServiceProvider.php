@@ -2,8 +2,20 @@
 
 namespace App\Providers;
 
-use App\Models\{Dividend, FxTick, MonthlySnapshot, Portfolio, Position, PriceTick, Transaction};
-use App\Policies\{DividendPolicy, FxTickPolicy, MonthlySnapshotPolicy, PortfolioPolicy, PositionPolicy, PriceTickPolicy, TransactionPolicy};
+use App\Models\Dividend;
+use App\Models\FxTick;
+use App\Models\MonthlySnapshot;
+use App\Models\Portfolio;
+use App\Models\Position;
+use App\Models\PriceTick;
+use App\Models\Transaction;
+use App\Policies\DividendPolicy;
+use App\Policies\FxTickPolicy;
+use App\Policies\MonthlySnapshotPolicy;
+use App\Policies\PortfolioPolicy;
+use App\Policies\PositionPolicy;
+use App\Policies\PriceTickPolicy;
+use App\Policies\TransactionPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider

@@ -10,6 +10,7 @@ use Illuminate\Console\Command;
 class SnapshotsBackfill extends Command
 {
     protected $signature = 'snapshots:backfill {from} {to} {--portfolio=}';
+
     protected $description = 'Backfill snapshot data';
 
     public function handle(): int

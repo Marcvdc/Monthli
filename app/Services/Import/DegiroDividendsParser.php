@@ -29,6 +29,7 @@ class DegiroDividendsParser
             $row = array_combine($header, $data);
             if (empty($row['Date']) || empty($row['Product'])) {
                 $errors[] = 'Invalid row: '.implode(',', $data);
+
                 continue;
             }
 

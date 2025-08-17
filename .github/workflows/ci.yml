@@ -1,0 +1,20 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer
+          extensions: pdo_pgsql, pgsql
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer pint --test
+      - run: vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=1G
+      - run: php artisan test

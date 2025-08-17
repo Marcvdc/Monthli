@@ -3,12 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PortfolioResource\Pages;
-use App\Models\Portfolio;
 use App\Jobs\MakeMonthlySnapshotJob;
-use Filament\Notifications\Notification;
+use App\Models\Portfolio;
+use BackedEnum;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -16,11 +17,11 @@ class PortfolioResource extends Resource
 {
     protected static ?string $model = Portfolio::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->schema([
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(255),

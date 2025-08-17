@@ -5,7 +5,9 @@ namespace App\Services\Import;
 class DegiroDetector
 {
     public const TYPE_POSITIONS = 'positions';
+
     public const TYPE_TRANSACTIONS = 'transactions';
+
     public const TYPE_DIVIDENDS = 'dividends';
 
     /**

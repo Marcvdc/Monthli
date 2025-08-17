@@ -27,7 +27,7 @@ class YahooClientTest extends TestCase
             ], 200),
         ]);
 
-        $client = new YahooClient();
+        $client = new YahooClient;
         $data = $client->fetch('DUMMY');
 
         $this->assertSame('2024-01-01', $data['date']);

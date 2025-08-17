@@ -18,7 +18,7 @@ class CoinGeckoClientTest extends TestCase
             ], 200),
         ]);
 
-        $client = new CoinGeckoClient();
+        $client = new CoinGeckoClient;
         $data = $client->fetch('bitcoin');
 
         $this->assertSame('2024-01-01', $data['date']);

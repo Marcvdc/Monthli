@@ -2,8 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Dividend;
+use App\Models\FxTick;
+use App\Models\MonthlySnapshot;
+use App\Models\Portfolio;
+use App\Models\Position;
+use App\Models\PriceTick;
+use App\Models\Transaction;
 use App\Models\User;
-use App\Models\{Dividend, FxTick, MonthlySnapshot, Portfolio, Position, PriceTick, Transaction};
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

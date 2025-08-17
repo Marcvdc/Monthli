@@ -2,7 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Models\{FxTick, MonthlySnapshot, Portfolio, PriceTick};
+use App\Models\FxTick;
+use App\Models\MonthlySnapshot;
+use App\Models\Portfolio;
+use App\Models\PriceTick;
 use Carbon\Carbon;
 
 class MakeMonthlySnapshotJob
@@ -10,8 +13,7 @@ class MakeMonthlySnapshotJob
     public function __construct(
         protected Portfolio $portfolio,
         protected Carbon $date
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {

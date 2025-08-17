@@ -7,7 +7,7 @@ class SnapshotExporter
     /**
      * Export snapshot data to CSV format.
      *
-     * @param array<int,array{month:string,gross_value:float,inflows:float,mom_pct:float,ytd:float}> $snapshots
+     * @param  array<int,array{month:string,gross_value:float,inflows:float,mom_pct:float,ytd:float}>  $snapshots
      */
     public function export(array $snapshots): string
     {
@@ -25,7 +25,7 @@ class SnapshotExporter
         rewind($handle);
         $csv = stream_get_contents($handle);
         fclose($handle);
+
         return $csv === false ? '' : $csv;
     }
 }
-

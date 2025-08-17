@@ -17,7 +17,7 @@ class EcbFxClientTest extends TestCase
             ], 200),
         ]);
 
-        $client = new EcbFxClient();
+        $client = new EcbFxClient;
         $data = $client->fetch('EUR', 'USD');
 
         $this->assertSame('2024-01-01', $data['date']);
