@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      APP_ENV: local
+  db:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: monthli
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+  horizon:
+    build: .
+    command: php artisan horizon
+    depends_on:
+      - redis
+      - db
+volumes:
+  db_data:
