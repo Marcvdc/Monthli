@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class MonthlyValueChart extends LineChartWidget
 {
-    protected static ?string $heading = 'Waarde per maand';
+    protected ?string $heading = 'Waarde per maand';
 
     protected function getData(): array
     {
@@ -21,7 +21,7 @@ class MonthlyValueChart extends LineChartWidget
                     'data' => $snapshots->pluck('value')->toArray(),
                 ],
             ],
-            'labels' => $snapshots->pluck('month')->map(fn($m) => Carbon::parse($m)->format('Y-m'))->toArray(),
+            'labels' => $snapshots->pluck('month')->map(fn ($m) => Carbon::parse($m)->format('Y-m'))->toArray(),
         ];
     }
 }

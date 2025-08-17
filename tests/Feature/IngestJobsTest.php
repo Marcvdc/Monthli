@@ -38,7 +38,7 @@ class IngestJobsTest extends TestCase
         ]);
 
         $job = new IngestEquityPricesJob(['DUMMY']);
-        $job->handle(new YahooClient());
+        $job->handle(new YahooClient);
 
         $tick = PriceTick::first();
         $this->assertNotNull($tick);
@@ -56,7 +56,7 @@ class IngestJobsTest extends TestCase
         ]);
 
         $job = new IngestCryptoPricesJob(['bitcoin']);
-        $job->handle(new CoinGeckoClient());
+        $job->handle(new CoinGeckoClient);
 
         $tick = PriceTick::first();
         $this->assertSame('bitcoin', $tick->symbol);
@@ -73,7 +73,7 @@ class IngestJobsTest extends TestCase
         ]);
 
         $job = new IngestFxRatesJob(['USD']);
-        $job->handle(new EcbFxClient());
+        $job->handle(new EcbFxClient);
 
         $tick = FxTick::first();
         $this->assertSame('EUR', $tick->base_currency);

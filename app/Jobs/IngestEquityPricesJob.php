@@ -7,9 +7,7 @@ use App\Services\Prices\YahooClient;
 
 class IngestEquityPricesJob
 {
-    public function __construct(private array $symbols)
-    {
-    }
+    public function __construct(private array $symbols) {}
 
     public function handle(YahooClient $client): void
     {

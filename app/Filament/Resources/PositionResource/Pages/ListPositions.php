@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\PositionResource\Pages;
 
 use App\Filament\Resources\PositionResource;
+use App\Models\Position;
 use Filament\Forms;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Actions\Action;
-use App\Models\Position;
 
 class ListPositions extends ListRecords
 {

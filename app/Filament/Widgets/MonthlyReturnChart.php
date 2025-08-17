@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class MonthlyReturnChart extends BarChartWidget
 {
-    protected static ?string $heading = 'MoM rendement';
+    protected ?string $heading = 'MoM rendement';
 
     protected function getData(): array
     {

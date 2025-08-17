@@ -20,7 +20,7 @@ class DegiroImportTest extends TestCase
 
     public function test_detector_identifies_files(): void
     {
-        $detector = new DegiroDetector();
+        $detector = new DegiroDetector;
 
         $this->assertSame(DegiroDetector::TYPE_POSITIONS, $detector->detect($this->fixturesPath.'/positions.csv'));
         $this->assertSame(DegiroDetector::TYPE_TRANSACTIONS, $detector->detect($this->fixturesPath.'/transactions.csv'));
@@ -29,7 +29,7 @@ class DegiroImportTest extends TestCase
 
     public function test_parse_positions(): void
     {
-        $parser = new DegiroPositionsParser();
+        $parser = new DegiroPositionsParser;
         $content = file_get_contents($this->fixturesPath.'/positions.csv');
         $result = $parser->parse($content);
 
@@ -42,7 +42,7 @@ class DegiroImportTest extends TestCase
 
     public function test_parse_transactions(): void
     {
-        $parser = new DegiroTransactionsParser();
+        $parser = new DegiroTransactionsParser;
         $content = file_get_contents($this->fixturesPath.'/transactions.csv');
         $result = $parser->parse($content);
 
@@ -58,7 +58,7 @@ class DegiroImportTest extends TestCase
 
     public function test_parse_dividends(): void
     {
-        $parser = new DegiroDividendsParser();
+        $parser = new DegiroDividendsParser;
         $content = file_get_contents($this->fixturesPath.'/dividends.csv');
         $result = $parser->parse($content);
 
@@ -73,7 +73,7 @@ class DegiroImportTest extends TestCase
     public function test_error_bucket_for_unknown_columns(): void
     {
         $csv = "Product,Quantity,Extra\nABC,10,foo";
-        $parser = new DegiroPositionsParser();
+        $parser = new DegiroPositionsParser;
         $result = $parser->parse($csv);
 
         $this->assertNotEmpty($result['errors']);

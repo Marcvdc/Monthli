@@ -29,6 +29,7 @@ class DegiroPositionsParser
             $row = array_combine($header, $data);
             if (empty($row['Product']) || empty($row['Quantity'])) {
                 $errors[] = 'Invalid row: '.implode(',', $data);
+
                 continue;
             }
 

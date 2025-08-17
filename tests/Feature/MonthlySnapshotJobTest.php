@@ -3,7 +3,11 @@
 namespace Tests\Feature;
 
 use App\Jobs\MakeMonthlySnapshotJob;
-use App\Models\{FxTick, MonthlySnapshot, Portfolio, Position, PriceTick};
+use App\Models\FxTick;
+use App\Models\MonthlySnapshot;
+use App\Models\Portfolio;
+use App\Models\Position;
+use App\Models\PriceTick;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

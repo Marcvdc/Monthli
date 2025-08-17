@@ -4,20 +4,22 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MonthlySnapshotResource\Pages;
 use App\Models\MonthlySnapshot;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
-use Filament\Tables\Table;
 use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Table;
 
 class MonthlySnapshotResource extends Resource
 {
     protected static ?string $model = MonthlySnapshot::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-chart-bar';
 
-    public static function form(\Filament\Forms\Form $form): \Filament\Forms\Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([]);
+        return $schema->schema([]);
     }
 
     public static function table(Table $table): Table

@@ -1,0 +1,436 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\Portfolio\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: app/Console/Commands/SnapshotsBackfill.php
+
+		-
+			message: "#^Cannot call method startOfMonth\\(\\) on Carbon\\\\Carbon\\|null\\.$#"
+			count: 2
+			path: app/Console/Commands/SnapshotsBackfill.php
+
+		-
+			message: "#^Parameter \\#2 \\$time of static method Carbon\\\\Carbon\\:\\:createFromFormat\\(\\) expects string, array\\|bool\\|string\\|null given\\.$#"
+			count: 2
+			path: app/Console/Commands/SnapshotsBackfill.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\ExportAction\\.$#"
+			count: 1
+			path: app/Filament/Resources/MonthlySnapshotResource.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Jobs\\\\MakeMonthlySnapshotJob\\:\\:dispatch\\(\\)\\.$#"
+			count: 2
+			path: app/Filament/Resources/PortfolioResource.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\Action\\.$#"
+			count: 2
+			path: app/Filament/Resources/PortfolioResource.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\DeleteBulkAction\\.$#"
+			count: 1
+			path: app/Filament/Resources/PortfolioResource.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\EditAction\\.$#"
+			count: 1
+			path: app/Filament/Resources/PortfolioResource.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\DeleteBulkAction\\.$#"
+			count: 1
+			path: app/Filament/Resources/PositionResource.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\EditAction\\.$#"
+			count: 1
+			path: app/Filament/Resources/PositionResource.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\Position\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: app/Filament/Resources/PositionResource/Pages/ListPositions.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\Action\\.$#"
+			count: 1
+			path: app/Filament/Resources/PositionResource/Pages/ListPositions.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<int, string\\>\\|false given\\.$#"
+			count: 1
+			path: app/Filament/Resources/PositionResource/Pages/ListPositions.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\MonthlySnapshot\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: app/Filament/Widgets/MonthlyReturnChart.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\MonthlySnapshot\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: app/Filament/Widgets/MonthlyValueChart.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\PriceTick\\:\\:updateOrCreate\\(\\)\\.$#"
+			count: 1
+			path: app/Jobs/IngestCryptoPricesJob.php
+
+		-
+			message: "#^Method App\\\\Jobs\\\\IngestCryptoPricesJob\\:\\:__construct\\(\\) has parameter \\$symbols with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Jobs/IngestCryptoPricesJob.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\PriceTick\\:\\:updateOrCreate\\(\\)\\.$#"
+			count: 1
+			path: app/Jobs/IngestEquityPricesJob.php
+
+		-
+			message: "#^Method App\\\\Jobs\\\\IngestEquityPricesJob\\:\\:__construct\\(\\) has parameter \\$symbols with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Jobs/IngestEquityPricesJob.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\FxTick\\:\\:updateOrCreate\\(\\)\\.$#"
+			count: 1
+			path: app/Jobs/IngestFxRatesJob.php
+
+		-
+			message: "#^Method App\\\\Jobs\\\\IngestFxRatesJob\\:\\:__construct\\(\\) has parameter \\$quotes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Jobs/IngestFxRatesJob.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Portfolio\\:\\:\\$id\\.$#"
+			count: 5
+			path: app/Jobs/MakeMonthlySnapshotJob.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Portfolio\\:\\:\\$positions\\.$#"
+			count: 1
+			path: app/Jobs/MakeMonthlySnapshotJob.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\FxTick\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: app/Jobs/MakeMonthlySnapshotJob.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\MonthlySnapshot\\:\\:updateOrCreate\\(\\)\\.$#"
+			count: 1
+			path: app/Jobs/MakeMonthlySnapshotJob.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\MonthlySnapshot\\:\\:where\\(\\)\\.$#"
+			count: 4
+			path: app/Jobs/MakeMonthlySnapshotJob.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\PriceTick\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: app/Jobs/MakeMonthlySnapshotJob.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Dividend\\:\\:portfolio\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Dividend.php
+
+		-
+			message: "#^Property App\\\\Models\\\\Dividend\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Models/Dividend.php
+
+		-
+			message: "#^Property App\\\\Models\\\\FxTick\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Models/FxTick.php
+
+		-
+			message: "#^Method App\\\\Models\\\\MonthlySnapshot\\:\\:portfolio\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/MonthlySnapshot.php
+
+		-
+			message: "#^Property App\\\\Models\\\\MonthlySnapshot\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Models/MonthlySnapshot.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:dividends\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Portfolio.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:monthlySnapshots\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Portfolio.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:positions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Portfolio.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:transactions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Portfolio.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:user\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Portfolio.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Position\\:\\:portfolio\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Position.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Position\\:\\:transactions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Position.php
+
+		-
+			message: "#^Property App\\\\Models\\\\PriceTick\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Models/PriceTick.php
+
+		-
+			message: "#^PHPDoc tag @use has invalid type Database\\\\Factories\\\\SymbolFactory\\.$#"
+			count: 1
+			path: app/Models/Symbol.php
+
+		-
+			message: "#^Type Database\\\\Factories\\\\SymbolFactory in generic type Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\HasFactory\\<Database\\\\Factories\\\\SymbolFactory\\> in PHPDoc tag @use is not subtype of template type TFactory of Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory of trait Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\HasFactory\\.$#"
+			count: 1
+			path: app/Models/Symbol.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Transaction\\:\\:portfolio\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Transaction\\:\\:position\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: "#^Property App\\\\Models\\\\Transaction\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: "#^Method App\\\\Models\\\\User\\:\\:portfolios\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Dividend\\:\\:\\$portfolio\\.$#"
+			count: 5
+			path: app/Policies/DividendPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
+			count: 5
+			path: app/Policies/DividendPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\MonthlySnapshot\\:\\:\\$portfolio\\.$#"
+			count: 5
+			path: app/Policies/MonthlySnapshotPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
+			count: 5
+			path: app/Policies/MonthlySnapshotPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Portfolio\\:\\:\\$user_id\\.$#"
+			count: 5
+			path: app/Policies/PortfolioPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
+			count: 5
+			path: app/Policies/PortfolioPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Position\\:\\:\\$portfolio\\.$#"
+			count: 5
+			path: app/Policies/PositionPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
+			count: 5
+			path: app/Policies/PositionPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Transaction\\:\\:\\$portfolio\\.$#"
+			count: 5
+			path: app/Policies/TransactionPolicy.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
+			count: 5
+			path: app/Policies/TransactionPolicy.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(string\\|null\\)\\: mixed\\)\\|null, 'strtolower' given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroDetector.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Import\\\\DegiroDividendsParser\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroDividendsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_diff expects array, array\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroDividendsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$keys of function array_combine expects array\\<int\\|string\\>, array\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroDividendsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroDividendsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fgetcsv expects resource, resource\\|false given\\.$#"
+			count: 2
+			path: app/Services/Import/DegiroDividendsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fwrite expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroDividendsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function rewind expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroDividendsParser.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Import\\\\DegiroPositionsParser\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroPositionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_diff expects array, array\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroPositionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$keys of function array_combine expects array\\<int\\|string\\>, array\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroPositionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroPositionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fgetcsv expects resource, resource\\|false given\\.$#"
+			count: 2
+			path: app/Services/Import/DegiroPositionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fwrite expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroPositionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function rewind expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroPositionsParser.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Import\\\\DegiroTransactionsParser\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroTransactionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_diff expects array, array\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroTransactionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$keys of function array_combine expects array\\<int\\|string\\>, array\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroTransactionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroTransactionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fgetcsv expects resource, resource\\|false given\\.$#"
+			count: 2
+			path: app/Services/Import/DegiroTransactionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fwrite expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroTransactionsParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function rewind expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/Import/DegiroTransactionsParser.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Prices\\\\CoinGeckoClient\\:\\:fetch\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Prices/CoinGeckoClient.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Prices\\\\EcbFxClient\\:\\:fetch\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Prices/EcbFxClient.php
+
+		-
+			message: "#^Cannot access offset 'adjclose' on mixed\\.$#"
+			count: 2
+			path: app/Services/Prices/YahooClient.php
+
+		-
+			message: "#^Cannot access offset 'indicators' on mixed\\.$#"
+			count: 1
+			path: app/Services/Prices/YahooClient.php
+
+		-
+			message: "#^Cannot access offset 'timestamp' on mixed\\.$#"
+			count: 1
+			path: app/Services/Prices/YahooClient.php
+
+		-
+			message: "#^Cannot access offset 0 on mixed\\.$#"
+			count: 3
+			path: app/Services/Prices/YahooClient.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Prices\\\\YahooClient\\:\\:fetch\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Prices/YahooClient.php
+
+		-
+			message: "#^Parameter \\#1 \\$timestamp of static method Carbon\\\\Carbon\\:\\:createFromTimestamp\\(\\) expects float\\|int\\|string, mixed given\\.$#"
+			count: 1
+			path: app/Services/Prices/YahooClient.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\Symbol\\:\\:where\\(\\)\\.$#"
+			count: 2
+			path: app/Services/Symbols/Resolver.php

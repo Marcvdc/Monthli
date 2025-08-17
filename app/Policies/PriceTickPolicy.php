@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\PriceTick;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class PriceTickPolicy
 {

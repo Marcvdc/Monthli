@@ -1,4 +1,5 @@
 <?php
+
 return [
     'encrypt_api_keys' => true,
     'headers' => [

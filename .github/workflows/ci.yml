@@ -16,5 +16,5 @@ jobs:
           extensions: pdo_pgsql, pgsql
       - run: composer install --no-interaction --prefer-dist
       - run: composer pint --test
-      - run: vendor/bin/phpstan analyse --level=max app
+      - run: vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=1G
       - run: php artisan test

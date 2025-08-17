@@ -2,9 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\{MonthlySnapshot, Portfolio};
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\MonthlySnapshot;
+use App\Models\Portfolio;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class DataModelTest extends TestCase
