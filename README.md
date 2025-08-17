@@ -1,5 +1,7 @@
 # Monthli — Privacy-First Portfolio Tracker (Laravel + Filament)
 
+Privacy-first portfolio tracker. Import your broker CSV (e.g. DEGIRO), fetch daily prices automatically, and get clear monthly performance reports (MoM %, inflows/outflows, dividends). Built with Laravel + Filament.
+
 Import your broker CSV (e.g., DEGIRO), fetch daily prices (Yahoo/CoinGecko/ECB), and get monthly performance reports (MoM %, inflows/outflows, dividends).
 Stack: Laravel 11, Filament v3/v4, PostgreSQL, Redis/Horizon, Docker.
 
@@ -58,12 +60,14 @@ UI (Filament)
 - Widgets: Linechart (waarde per maand), Barchart (MoM)
 - Actions: Force Snapshot, Backfill
 
-Tests
+## Tests
 ````php
 php artisan test
 ````
 
-Security
+## Security & Observability
+
+Configuration under `config/security.php` demonstrates encrypted API keys, security headers, basic rate limiting, and logging without PII.
 - Geen broker-logins, CSV-only
 - API keys encrypted (Eloquent casts)
 - Geen PII in logs

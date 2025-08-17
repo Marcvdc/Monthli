@@ -1,13 +1,15 @@
 <?php
-
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-
-class DemoSeeder extends Seeder
+class DemoSeeder
 {
-    public function run(): void
+    public function run(): array
     {
-        // TODO: seed demo data
+        return [
+            'portfolio' => [
+                ['symbol' => 'AAPL', 'quantity' => 10, 'price' => 150.00],
+                ['symbol' => 'GOOG', 'quantity' => 5, 'price' => 2800.00],
+            ],
+        ];
     }
 }

@@ -15,6 +15,7 @@ class Position extends Model
         'symbol',
         'quantity',
         'average_price',
+        'currency',
     ];
 
     public function portfolio()
