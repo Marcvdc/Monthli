@@ -2,11 +2,17 @@
 
 namespace App\Services\Symbols;
 
+use App\Models\Symbol;
+
 class Resolver
 {
-    public function resolve(string $symbol): string
+    public function ticker(string $isin): ?string
     {
-        // TODO: resolve symbol
-        return $symbol;
+        return Symbol::where('isin', $isin)->value('ticker');
+    }
+
+    public function isin(string $ticker): ?string
+    {
+        return Symbol::where('ticker', $ticker)->value('isin');
     }
 }
