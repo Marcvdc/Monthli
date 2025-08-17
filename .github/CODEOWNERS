@@ -1,0 +1,5 @@
+# Default owners
+*                                   @org/maintainers @marc
+/app/                               @org/backend
+/docs/                              @org/docs
+/.github/workflows/                 @org/devops
