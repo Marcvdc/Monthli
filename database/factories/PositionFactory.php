@@ -21,6 +21,7 @@ class PositionFactory extends Factory
             'symbol' => strtoupper($this->faker->lexify('???')),
             'quantity' => $this->faker->randomFloat(4, 1, 100),
             'average_price' => $this->faker->randomFloat(4, 10, 200),
+            'currency' => 'USD',
         ];
     }
 }

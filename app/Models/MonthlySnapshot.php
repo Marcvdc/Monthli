@@ -14,10 +14,19 @@ class MonthlySnapshot extends Model
         'portfolio_id',
         'month',
         'value',
+        'mom',
+        'ytd',
+        'drawdown',
+        'volatility',
     ];
 
     protected $casts = [
         'month' => 'date',
+        'value' => 'float',
+        'mom' => 'float',
+        'ytd' => 'float',
+        'drawdown' => 'float',
+        'volatility' => 'float',
     ];
 
     public function portfolio()
