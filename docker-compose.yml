@@ -5,18 +5,23 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - postgres
       - redis
     environment:
       APP_ENV: local
-  db:
-    image: mysql:8
+  postgres:
+    image: postgres:16
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: monthli
-      MYSQL_ROOT_PASSWORD: password
+      POSTGRES_DB: monthli
+      POSTGRES_USER: monthli
+      POSTGRES_PASSWORD: secret
     volumes:
-      - db_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U monthli -d monthli"]
+      interval: 5s
+      retries: 5
   redis:
     image: redis:alpine
     restart: unless-stopped
@@ -25,6 +30,6 @@ services:
     command: php artisan horizon
     depends_on:
       - redis
-      - db
+      - postgres
 volumes:
-  db_data:
+  postgres_data:

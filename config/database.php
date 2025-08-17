@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -93,23 +93,23 @@ return [
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'public',
-            'sslmode' => 'prefer',
+            'search_path' => env('DB_SCHEMA', 'public'),
+            'sslmode' => env('DB_SSLMODE', 'prefer'),
         ],
 
-        'sqlsrv' => [
-            'driver' => 'sqlsrv',
-            'url' => env('DB_URL'),
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+        'pgsql_direct' => [
+            'driver' => 'pgsql',
+            'url' => env('DB_DIRECT_URL'),
+            'host' => env('DB_DIRECT_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('DB_DIRECT_PORT', env('DB_PORT', '5432')),
+            'database' => env('DB_DIRECT_DATABASE', env('DB_DATABASE', 'laravel')),
+            'username' => env('DB_DIRECT_USERNAME', env('DB_USERNAME', 'root')),
+            'password' => env('DB_DIRECT_PASSWORD', env('DB_PASSWORD', '')),
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+            'search_path' => env('DB_DIRECT_SCHEMA', env('DB_SCHEMA', 'public')),
+            'sslmode' => env('DB_DIRECT_SSLMODE', env('DB_SSLMODE', 'prefer')),
         ],
 
     ],

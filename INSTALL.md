@@ -64,4 +64,3 @@ DB_PASSWORD=<supabase-password>
 - Enable [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) and ensure Docker Desktop uses the WSL backend.
 - Store the project under `/home/<user>/` for best file‑watching performance.
 - Use `wsl.exe` to run Docker commands from Windows Terminal if needed.
-

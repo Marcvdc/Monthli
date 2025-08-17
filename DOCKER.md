@@ -43,3 +43,4 @@ If you want hosted Postgres:
    ```
 2. Update `.env` with Supabase credentials (`DB_HOST`, `DB_USERNAME`, `DB_PASSWORD`, `DB_PORT`).
 3. Restart the remaining services: `docker compose up -d`.
+
