@@ -44,4 +44,3 @@ USER www-data
 RUN php -m >/dev/null
 
 CMD ["php-fpm"]
-
