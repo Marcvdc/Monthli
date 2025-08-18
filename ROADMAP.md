@@ -1,9 +1,17 @@
 # 🚀 Roadmap – Monthli
 
-## Fase 1 – Foundation ✅ **COMPLETED**
+## Docker Setup & Infrastructure 🟢 **RECENTLY COMPLETED**
+- [x] Complete Docker environment (PHP 8.4, PostgreSQL 16, Redis, Nginx)
+- [x] Docker development scripts (`docker-dev.sh`)
+- [x] Automated Laravel permissions handling
+- [x] GitHub Actions CI/CD with PHP 8.4
+- [ ] Filament admin panel configuration (discovered missing)
+
+## Fase 1 – Foundation 🟡 **PARTIALLY COMPLETED**
 - [x] Docker-compose met PostgreSQL werkend
-- [x] Laravel + Filament skeleton
-- [x] Basis auth & users
+- [x] Laravel skeleton (basic setup)
+- [ ] Filament admin panel properly configured
+- [ ] Basis auth & users implementation
 - [x] Repo governance
 
 ## Fase 2 – Data Ingest (CSV → DB) ✅ **COMPLETED**
