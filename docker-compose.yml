@@ -2,13 +2,23 @@ version: "3.8"
 services:
   app:
     build: .
-    ports:
-      - "8000:8000"
     depends_on:
       - postgres
       - redis
     environment:
       APP_ENV: local
+    volumes:
+      - .:/var/www
+  
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    depends_on:
+      - app
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
   postgres:
     image: postgres:16
     restart: unless-stopped
