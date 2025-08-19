@@ -12,6 +12,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteBulkAction;
 
 class PortfolioResource extends Resource
 {
@@ -45,8 +48,8 @@ class PortfolioResource extends Resource
                 Tables\Columns\TextColumn::make('base_currency'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('forceSnapshot')
+                EditAction::make(),
+                Action::make('forceSnapshot')
                     ->label('Force Snapshot')
                     ->action(function (Portfolio $record) {
                         MakeMonthlySnapshotJob::dispatch($record);
@@ -55,7 +58,7 @@ class PortfolioResource extends Resource
                             ->success()
                             ->send();
                     }),
-                Tables\Actions\Action::make('backfill')
+                Action::make('backfill')
                     ->label('Backfill')
                     ->action(function (Portfolio $record) {
                         MakeMonthlySnapshotJob::dispatch($record);
@@ -66,7 +69,7 @@ class PortfolioResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ]);
     }
 
