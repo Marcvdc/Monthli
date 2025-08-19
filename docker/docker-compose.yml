@@ -38,10 +38,16 @@ services:
     image: redis:alpine
     restart: unless-stopped
   horizon:
-    build: .
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
     command: php artisan horizon
     depends_on:
       - redis
       - postgres
+    volumes:
+      - ..:/var/www
+    environment:
+      APP_ENV: local
 volumes:
   postgres_data:
