@@ -34,6 +34,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Resources\PortfolioResource::class,
                 \App\Filament\Resources\PositionResource::class,
                 \App\Filament\Resources\MonthlySnapshotResource::class,
+                \App\Filament\Resources\TransactionResource::class,
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
