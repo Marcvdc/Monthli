@@ -1,7 +1,47 @@
-version: '3.8'
+version: "3.8"
 services:
   app:
-    build: .
-    command: php -S 0.0.0.0:8000 -t public
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      APP_ENV: local
+    volumes:
+      - ..:/var/www
+  
+  nginx:
+    image: nginx:alpine
     ports:
-      - "8000:8000"
+      - "8000:80"
+    depends_on:
+      - app
+    volumes:
+      - ..:/var/www
+      - ./nginx/conf.d:/etc/nginx/conf.d
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: monthli
+      POSTGRES_USER: monthli
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U monthli -d monthli"]
+      interval: 5s
+      retries: 5
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+  horizon:
+    build: .
+    command: php artisan horizon
+    depends_on:
+      - redis
+      - postgres
+volumes:
+  postgres_data:
