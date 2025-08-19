@@ -1,0 +1,47 @@
+# Laravel specific
+/storage/app/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/bootstrap/cache/*
+.env*
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Development files
+README.md
+ROADMAP.md
+ARCHITECTURE.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SECURITY.md
+USAGE.md
+
+# Node modules and build artifacts
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+/tests/
+phpunit.xml
+.phpunit.result.cache
+
+# Development tools
+docker-dev.sh
+docker-compose.override.yml

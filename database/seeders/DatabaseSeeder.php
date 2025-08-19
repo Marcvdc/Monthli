@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create admin user first
+        $this->call(AdminUserSeeder::class);
+        
         $user = User::factory()->create();
 
         $portfolio = Portfolio::factory()->for($user)->create();

@@ -15,7 +15,7 @@ class PositionResource extends Resource
 {
     protected static ?string $model = Position::class;
 
-    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-briefcase';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-chart-pie';
 
     public static function form(Schema $schema): Schema
     {
