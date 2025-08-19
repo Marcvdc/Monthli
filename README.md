@@ -73,12 +73,70 @@ Configuration under `config/security.php` demonstrates encrypted API keys, secur
 - API keys encrypted (Eloquent casts)
 - Geen PII in logs
 
-License:  Apache License 2.0 — zie LICENSE
+## Development Status
 
-Roadmap
-- CSV: BUX / Scalable / IBKR
-- Symbol resolver UI
-- AI TL;DR in PDF rapport
-- Alerts (dividend, movements)
-- Multi-portfolio & family mode
-- SaaS mode + billing
+### Phase 1: Foundation ✅ COMPLETE
+- ✅ Docker-compose + PostgreSQL setup
+- ✅ Laravel + Filament skeleton with auth & users
+- ✅ Admin panel with Portfolio, Position, MonthlySnapshot resources
+- ✅ Custom dashboard widgets (MonthlyValueChart, MonthlyReturnChart)
+- ✅ Laravel Horizon for advanced queue management
+- ✅ Production-ready Docker environment with one-command setup
+
+### Phase 2: Data Ingest 🚧 IN PROGRESS
+**Completed:**
+- ✅ Transaction model with DEGIRO-specific fields (symbol, ISIN, currency, fees, venue)
+- ✅ DegiroImportService with Dutch→English transaction mapping
+- ✅ TransactionResource for Filament with filtering and CRUD
+- ✅ ImportDegiroCsvJob for queue-based CSV processing
+- ✅ CSV upload UI in admin panel ("Import DEGIRO CSV" button)
+- ✅ Filament v4 compatibility fixes
+
+**Next Session Priority:**
+- 🔧 Debug CSV import flow - investigate why imported data isn't appearing
+- 🔧 Fix Docker permission issues - resolve log/tinker command errors  
+- 🔧 Test with real DEGIRO CSV files end-to-end
+
+**Remaining:**
+- Add CSV file upload validation
+- Implement transaction data validation rules
+- Add transaction validation error reporting
+- Create transaction duplicate detection
+- Add transaction category/type classification
+
+### Phase 3: Market Data & Jobs (PLANNED)
+- Daily price jobs for equities/crypto/FX
+- Monthly snapshots automation
+- Basic reporting functionality
+
+### Phase 4: Reporting & Insights (PLANNED)
+- Monthly reports UI with charts
+- PDF/CSV export capabilities
+- Advanced filtering and metrics
+
+### Phase 5: Community & Extras (PLANNED)
+- Multi-broker support (BUX, Scalable, IBKR)
+- API endpoints
+- Additional metrics (IRR, dividend yield)
+
+### Phase 6: Launch & Ops (PLANNED)
+- CI/CD pipeline
+- Beta testing
+- Open source positioning
+
+## Quick Setup
+
+```bash
+# One-command development setup
+./docker-dev.sh setup
+
+# Access points
+# - App: http://localhost:8000
+# - Admin: http://localhost:8000/admin (admin@monthli.com / admin123)
+# - Horizon: http://localhost:8000/horizon
+
+# Rollback everything
+./docker-dev.sh rollback
+```
+
+License:  Apache License 2.0 — zie LICENSE
