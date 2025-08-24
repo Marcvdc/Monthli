@@ -40,7 +40,8 @@ class TransactionResource extends Resource
                         Forms\Components\Select::make('position_id')
                             ->label('Position')
                             ->options(Position::with('portfolio')->get()->mapWithKeys(function ($position) {
-                                return [$position->id => "{$position->portfolio->name} - {$position->symbol}"];
+                                $portfolio = $position->portfolio;
+                                return [$position->id => "{$portfolio->name} - {$position->symbol}"];
                             }))
                             ->searchable(),
                         
@@ -167,7 +168,10 @@ class TransactionResource extends Resource
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
-                        return strlen($state) > 50 ? $state : null;
+                        if (is_string($state) && strlen($state) > 50) {
+                            return $state;
+                        }
+                        return null;
                     }),
             ])
             ->filters([

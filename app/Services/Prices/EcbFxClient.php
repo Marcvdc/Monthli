@@ -8,6 +8,9 @@ use RuntimeException;
 
 class EcbFxClient
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function fetch(string $base, string $quote): array
     {
         $key = "ecb:{$base}:{$quote}";

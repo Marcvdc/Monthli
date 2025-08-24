@@ -10,6 +10,19 @@ class MonthlySnapshot extends Model
     /** @use HasFactory<\Database\Factories\MonthlySnapshotFactory> */
     use HasFactory;
 
+    /**
+     * @property int $id
+     * @property int $portfolio_id
+     * @property \Illuminate\Support\Carbon $snapshot_date
+     * @property float $total_value
+     * @property float $total_cost
+     * @property float $unrealized_pnl
+     * @property float $cash_balance
+     * @property \Illuminate\Support\Carbon|null $created_at
+     * @property \Illuminate\Support\Carbon|null $updated_at
+     * @property Portfolio $portfolio
+     */
+
     protected $fillable = [
         'portfolio_id',
         'month',
@@ -20,6 +33,9 @@ class MonthlySnapshot extends Model
         'volatility',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'month' => 'date',
         'value' => 'float',
@@ -29,7 +45,10 @@ class MonthlySnapshot extends Model
         'volatility' => 'float',
     ];
 
-    public function portfolio()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Portfolio, MonthlySnapshot>
+     */
+    public function portfolio(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Portfolio::class);
     }

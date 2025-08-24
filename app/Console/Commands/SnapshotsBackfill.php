@@ -15,8 +15,19 @@ class SnapshotsBackfill extends Command
 
     public function handle(): int
     {
-        $from = Carbon::createFromFormat('Y-m', $this->argument('from'))->startOfMonth();
-        $to = Carbon::createFromFormat('Y-m', $this->argument('to'))->startOfMonth();
+        $fromArg = $this->argument('from');
+        $toArg = $this->argument('to');
+        
+        $from = Carbon::createFromFormat('Y-m', (string) $fromArg);
+        $to = Carbon::createFromFormat('Y-m', (string) $toArg);
+        
+        if (!$from || !$to) {
+            $this->error('Invalid date format. Use Y-m format (e.g., 2024-01)');
+            return self::FAILURE;
+        }
+        
+        $from = $from->startOfMonth();
+        $to = $to->startOfMonth();
 
         $portfolioId = $this->option('portfolio');
         $portfolios = $portfolioId

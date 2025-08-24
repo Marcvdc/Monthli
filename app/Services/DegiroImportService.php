@@ -40,6 +40,9 @@ class DegiroImportService
         'Opname' => 'WITHDRAWAL',
     ];
 
+    /**
+     * @return array{success: int, errors: array<string>, duplicates: int}
+     */
     public function importCsv(string $filePath, Portfolio $portfolio): array
     {
         $results = [
@@ -54,7 +57,16 @@ class DegiroImportService
         }
 
         $file = fopen($filePath, 'r');
+        if ($file === false) {
+            $results['errors'][] = 'Cannot open file: ' . $filePath;
+            return $results;
+        }
         $headers = fgetcsv($file);
+        if ($headers === false) {
+            $results['errors'][] = 'Cannot read CSV headers';
+            fclose($file);
+            return $results;
+        }
         
         // Validate CSV headers
         if (!$this->validateHeaders($headers)) {
@@ -64,7 +76,7 @@ class DegiroImportService
         }
 
         $rowNumber = 1;
-        while (($row = fgetcsv($file)) !== false) {
+        while (($row = fgetcsv($file)) !== false && $row !== null) {
             $rowNumber++;
             
             try {
@@ -94,6 +106,9 @@ class DegiroImportService
         return $results;
     }
 
+    /**
+     * @param array<string> $headers
+     */
     private function validateHeaders(array $headers): bool
     {
         foreach (self::EXPECTED_COLUMNS as $column) {
@@ -104,6 +119,11 @@ class DegiroImportService
         return true;
     }
 
+    /**
+     * @param array<string> $headers
+     * @param array<string> $row
+     * @return array<string, mixed>|null
+     */
     private function parseRow(array $headers, array $row, Portfolio $portfolio): ?array
     {
         $data = array_combine($headers, $row);
@@ -126,7 +146,8 @@ class DegiroImportService
         $exchangeRate = $this->parseExchangeRate($data['FX']);
 
         // Generate external ID from order ID or row hash
-        $externalId = $data['Order Id'] ?? 'degiro_' . md5(json_encode($data));
+        $orderId = $data['Order Id'] ?? null;
+        $externalId = $orderId ?: 'degiro_' . md5(json_encode($data) ?: '');
 
         return [
             'portfolio_id' => $portfolio->id,
@@ -152,7 +173,11 @@ class DegiroImportService
     {
         // DEGIRO date format: dd-mm-yyyy
         // DEGIRO time format: HH:mm
-        return Carbon::createFromFormat('d-m-Y H:i', $date . ' ' . $time);
+        $dateTime = Carbon::createFromFormat('d-m-Y H:i', $date . ' ' . $time);
+        if (!$dateTime) {
+            throw new \InvalidArgumentException('Invalid date format: ' . $date . ' ' . $time);
+        }
+        return $dateTime;
     }
 
     private function parseTransactionType(string $description): string
@@ -191,7 +216,7 @@ class DegiroImportService
     {
         // Parse balance amount (e.g., "1,250.50 EUR" or "-500.00")
         $cleanAmount = preg_replace('/[^\d.,-]/', '', $balance);
-        return (float) str_replace(',', '', $cleanAmount);
+        return (float) str_replace(',', '', $cleanAmount ?? '');
     }
 
     private function parseExchangeRate(string $fx): float
@@ -237,25 +262,29 @@ class DegiroImportService
         return 0;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     private function findOrCreatePosition(Portfolio $portfolio, array $data): ?int
     {
-        $symbol = $this->extractSymbol($data['Product']);
+        $product = $data['Product'] ?? '';
+        $symbol = $this->extractSymbol(is_string($product) ? $product : '');
         $isin = $data['ISIN'] ?? null;
         
         if (!$symbol && !$isin) {
             return null; // Can't create position without identifier
         }
 
-        $position = Position::where('portfolio_id', $portfolio->id)
-            ->where(function ($query) use ($symbol, $isin) {
-                if ($symbol) {
-                    $query->where('symbol', $symbol);
-                }
-                if ($isin) {
-                    $query->orWhere('isin', $isin);
-                }
-            })
-            ->first();
+        $query = Position::where('portfolio_id', $portfolio->id);
+        $query->where(function ($q) use ($symbol, $isin) {
+            if ($symbol) {
+                $q->where('symbol', $symbol);
+            }
+            if ($isin) {
+                $q->orWhere('isin', $isin);
+            }
+        });
+        $position = $query->first();
 
         if (!$position && $symbol) {
             $position = Position::create([
@@ -267,9 +296,12 @@ class DegiroImportService
             ]);
         }
 
-        return $position?->id;
+        return $position instanceof Position ? $position->id : null;
     }
 
+    /**
+     * @param array<string, mixed> $transactionData
+     */
     private function isDuplicate(array $transactionData): bool
     {
         return Transaction::where('external_id', $transactionData['external_id'])

@@ -31,7 +31,10 @@ class DegiroDetector
             return null;
         }
 
-        $fields = array_map('strtolower', str_getcsv($header, ',', '"', '\\'));
+        $fields = array_map(
+            static fn (?string $value): string => strtolower($value ?? ''), 
+            str_getcsv($header, ',', '"', '\\')
+        );
 
         if (in_array('type', $fields, true) && in_array('price', $fields, true)) {
             return self::TYPE_TRANSACTIONS;

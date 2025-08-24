@@ -16,6 +16,9 @@ class PriceTick extends Model
         'price',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'date' => 'date',
     ];

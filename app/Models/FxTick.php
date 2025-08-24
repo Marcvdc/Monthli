@@ -17,6 +17,9 @@ class FxTick extends Model
         'rate',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'date' => 'date',
     ];

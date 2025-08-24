@@ -4,6 +4,9 @@ namespace App\Services\Import;
 
 class DegiroDividendsParser
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function parse(string $csv): array
     {
         $rows = [];
