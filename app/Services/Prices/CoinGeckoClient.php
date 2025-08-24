@@ -9,6 +9,9 @@ use RuntimeException;
 
 class CoinGeckoClient
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function fetch(string $symbol): array
     {
         $key = "coingecko:{$symbol}";

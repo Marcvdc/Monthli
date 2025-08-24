@@ -1,24 +1,14 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined static method App\\\\Models\\\\Portfolio\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: app/Console/Commands/SnapshotsBackfill.php
-
-		-
-			message: "#^Cannot call method startOfMonth\\(\\) on Carbon\\\\Carbon\\|null\\.$#"
+			message: "#^Cannot cast array\\|bool\\|string\\|null to string\\.$#"
 			count: 2
 			path: app/Console/Commands/SnapshotsBackfill.php
 
 		-
-			message: "#^Parameter \\#2 \\$time of static method Carbon\\\\Carbon\\:\\:createFromFormat\\(\\) expects string, array\\|bool\\|string\\|null given\\.$#"
-			count: 2
-			path: app/Console/Commands/SnapshotsBackfill.php
-
-		-
-			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\ExportAction\\.$#"
+			message: "#^Parameter \\#1 \\$portfolio of class App\\\\Jobs\\\\MakeMonthlySnapshotJob constructor expects App\\\\Models\\\\Portfolio, Illuminate\\\\Database\\\\Eloquent\\\\Model given\\.$#"
 			count: 1
-			path: app/Filament/Resources/MonthlySnapshotResource.php
+			path: app/Console/Commands/SnapshotsBackfill.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Jobs\\\\MakeMonthlySnapshotJob\\:\\:dispatch\\(\\)\\.$#"
@@ -26,44 +16,14 @@ parameters:
 			path: app/Filament/Resources/PortfolioResource.php
 
 		-
-			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\Action\\.$#"
-			count: 2
-			path: app/Filament/Resources/PortfolioResource.php
-
-		-
-			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\DeleteBulkAction\\.$#"
-			count: 1
-			path: app/Filament/Resources/PortfolioResource.php
-
-		-
-			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\EditAction\\.$#"
-			count: 1
-			path: app/Filament/Resources/PortfolioResource.php
-
-		-
-			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\DeleteBulkAction\\.$#"
-			count: 1
-			path: app/Filament/Resources/PositionResource.php
-
-		-
-			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\EditAction\\.$#"
-			count: 1
-			path: app/Filament/Resources/PositionResource.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Models\\\\Position\\:\\:create\\(\\)\\.$#"
-			count: 1
-			path: app/Filament/Resources/PositionResource/Pages/ListPositions.php
-
-		-
-			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Tables\\\\Actions\\\\Action\\.$#"
-			count: 1
-			path: app/Filament/Resources/PositionResource/Pages/ListPositions.php
-
-		-
 			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<int, string\\>\\|false given\\.$#"
 			count: 1
 			path: app/Filament/Resources/PositionResource/Pages/ListPositions.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Filament\\\\Forms\\\\Components\\\\Section\\.$#"
+			count: 3
+			path: app/Filament/Resources/TransactionResource.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Models\\\\MonthlySnapshot\\:\\:orderBy\\(\\)\\.$#"
@@ -81,17 +41,7 @@ parameters:
 			path: app/Jobs/IngestCryptoPricesJob.php
 
 		-
-			message: "#^Method App\\\\Jobs\\\\IngestCryptoPricesJob\\:\\:__construct\\(\\) has parameter \\$symbols with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Jobs/IngestCryptoPricesJob.php
-
-		-
 			message: "#^Call to an undefined static method App\\\\Models\\\\PriceTick\\:\\:updateOrCreate\\(\\)\\.$#"
-			count: 1
-			path: app/Jobs/IngestEquityPricesJob.php
-
-		-
-			message: "#^Method App\\\\Jobs\\\\IngestEquityPricesJob\\:\\:__construct\\(\\) has parameter \\$symbols with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: app/Jobs/IngestEquityPricesJob.php
 
@@ -99,16 +49,6 @@ parameters:
 			message: "#^Call to an undefined static method App\\\\Models\\\\FxTick\\:\\:updateOrCreate\\(\\)\\.$#"
 			count: 1
 			path: app/Jobs/IngestFxRatesJob.php
-
-		-
-			message: "#^Method App\\\\Jobs\\\\IngestFxRatesJob\\:\\:__construct\\(\\) has parameter \\$quotes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Jobs/IngestFxRatesJob.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Models\\\\Portfolio\\:\\:\\$id\\.$#"
-			count: 5
-			path: app/Jobs/MakeMonthlySnapshotJob.php
 
 		-
 			message: "#^Access to an undefined property App\\\\Models\\\\Portfolio\\:\\:\\$positions\\.$#"
@@ -136,69 +76,49 @@ parameters:
 			path: app/Jobs/MakeMonthlySnapshotJob.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Dividend\\:\\:portfolio\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Dividend\\:\\:portfolio\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\Portfolio, App\\\\Models\\\\Dividend\\> but returns Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\Portfolio, \\$this\\(App\\\\Models\\\\Dividend\\)\\>\\.$#"
 			count: 1
 			path: app/Models/Dividend.php
 
 		-
-			message: "#^Property App\\\\Models\\\\Dividend\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Models/Dividend.php
-
-		-
-			message: "#^Property App\\\\Models\\\\FxTick\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Models/FxTick.php
-
-		-
-			message: "#^Method App\\\\Models\\\\MonthlySnapshot\\:\\:portfolio\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\MonthlySnapshot\\:\\:portfolio\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\Portfolio, App\\\\Models\\\\MonthlySnapshot\\> but returns Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\Portfolio, \\$this\\(App\\\\Models\\\\MonthlySnapshot\\)\\>\\.$#"
 			count: 1
 			path: app/Models/MonthlySnapshot.php
 
 		-
-			message: "#^Property App\\\\Models\\\\MonthlySnapshot\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Models/MonthlySnapshot.php
-
-		-
-			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:dividends\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:dividends\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany does not specify its types\\: TRelatedModel, TDeclaringModel$#"
 			count: 1
 			path: app/Models/Portfolio.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:monthlySnapshots\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:monthlySnapshots\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany does not specify its types\\: TRelatedModel, TDeclaringModel$#"
 			count: 1
 			path: app/Models/Portfolio.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:positions\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:positions\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany does not specify its types\\: TRelatedModel, TDeclaringModel$#"
 			count: 1
 			path: app/Models/Portfolio.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:transactions\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:transactions\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany does not specify its types\\: TRelatedModel, TDeclaringModel$#"
 			count: 1
 			path: app/Models/Portfolio.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:user\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Portfolio\\:\\:user\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo does not specify its types\\: TRelatedModel, TDeclaringModel$#"
 			count: 1
 			path: app/Models/Portfolio.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Position\\:\\:portfolio\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Position\\:\\:portfolio\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo does not specify its types\\: TRelatedModel, TDeclaringModel$#"
 			count: 1
 			path: app/Models/Position.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Position\\:\\:transactions\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Position\\:\\:transactions\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany does not specify its types\\: TRelatedModel, TDeclaringModel$#"
 			count: 1
 			path: app/Models/Position.php
-
-		-
-			message: "#^Property App\\\\Models\\\\PriceTick\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Models/PriceTick.php
 
 		-
 			message: "#^PHPDoc tag @use has invalid type Database\\\\Factories\\\\SymbolFactory\\.$#"
@@ -211,22 +131,22 @@ parameters:
 			path: app/Models/Symbol.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Transaction\\:\\:portfolio\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Transaction\\:\\:portfolio\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\Portfolio, App\\\\Models\\\\Transaction\\> but returns Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\Portfolio, \\$this\\(App\\\\Models\\\\Transaction\\)\\>\\.$#"
 			count: 1
 			path: app/Models/Transaction.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Transaction\\:\\:position\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\Transaction\\:\\:position\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\Position, App\\\\Models\\\\Transaction\\> but returns Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\Position, \\$this\\(App\\\\Models\\\\Transaction\\)\\>\\.$#"
 			count: 1
 			path: app/Models/Transaction.php
 
 		-
-			message: "#^Property App\\\\Models\\\\Transaction\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
+			message: "#^Generic type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<App\\\\Models\\\\Portfolio\\> in PHPDoc tag @return does not specify all template types of class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\: TRelatedModel, TDeclaringModel$#"
 			count: 1
-			path: app/Models/Transaction.php
+			path: app/Models/User.php
 
 		-
-			message: "#^Method App\\\\Models\\\\User\\:\\:portfolios\\(\\) has no return type specified\\.$#"
+			message: "#^Method App\\\\Models\\\\User\\:\\:portfolios\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<App\\\\Models\\\\Portfolio\\> but returns Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\<App\\\\Models\\\\Portfolio, \\$this\\(App\\\\Models\\\\User\\)\\>\\.$#"
 			count: 1
 			path: app/Models/User.php
 
@@ -236,61 +156,11 @@ parameters:
 			path: app/Policies/DividendPolicy.php
 
 		-
-			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
-			count: 5
-			path: app/Policies/DividendPolicy.php
-
-		-
 			message: "#^Access to an undefined property App\\\\Models\\\\MonthlySnapshot\\:\\:\\$portfolio\\.$#"
 			count: 5
 			path: app/Policies/MonthlySnapshotPolicy.php
 
 		-
-			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
-			count: 5
-			path: app/Policies/MonthlySnapshotPolicy.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Models\\\\Portfolio\\:\\:\\$user_id\\.$#"
-			count: 5
-			path: app/Policies/PortfolioPolicy.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
-			count: 5
-			path: app/Policies/PortfolioPolicy.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Models\\\\Position\\:\\:\\$portfolio\\.$#"
-			count: 5
-			path: app/Policies/PositionPolicy.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
-			count: 5
-			path: app/Policies/PositionPolicy.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Models\\\\Transaction\\:\\:\\$portfolio\\.$#"
-			count: 5
-			path: app/Policies/TransactionPolicy.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Models\\\\User\\:\\:\\$id\\.$#"
-			count: 5
-			path: app/Policies/TransactionPolicy.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(string\\|null\\)\\: mixed\\)\\|null, 'strtolower' given\\.$#"
-			count: 1
-			path: app/Services/Import/DegiroDetector.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Import\\\\DegiroDividendsParser\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Import/DegiroDividendsParser.php
-
-		-
 			message: "#^Parameter \\#1 \\$array of function array_diff expects array, array\\|false given\\.$#"
 			count: 1
 			path: app/Services/Import/DegiroDividendsParser.php
@@ -319,11 +189,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$stream of function rewind expects resource, resource\\|false given\\.$#"
 			count: 1
 			path: app/Services/Import/DegiroDividendsParser.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Import\\\\DegiroPositionsParser\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Import/DegiroPositionsParser.php
 
 		-
 			message: "#^Parameter \\#1 \\$array of function array_diff expects array, array\\|false given\\.$#"
@@ -356,11 +221,6 @@ parameters:
 			path: app/Services/Import/DegiroPositionsParser.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Import\\\\DegiroTransactionsParser\\:\\:parse\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Import/DegiroTransactionsParser.php
-
-		-
 			message: "#^Parameter \\#1 \\$array of function array_diff expects array, array\\|false given\\.$#"
 			count: 1
 			path: app/Services/Import/DegiroTransactionsParser.php
@@ -389,16 +249,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$stream of function rewind expects resource, resource\\|false given\\.$#"
 			count: 1
 			path: app/Services/Import/DegiroTransactionsParser.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Prices\\\\CoinGeckoClient\\:\\:fetch\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Prices/CoinGeckoClient.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Prices\\\\EcbFxClient\\:\\:fetch\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Prices/EcbFxClient.php
 
 		-
 			message: "#^Cannot access offset 'adjclose' on mixed\\.$#"
@@ -421,16 +271,6 @@ parameters:
 			path: app/Services/Prices/YahooClient.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Prices\\\\YahooClient\\:\\:fetch\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Prices/YahooClient.php
-
-		-
 			message: "#^Parameter \\#1 \\$timestamp of static method Carbon\\\\Carbon\\:\\:createFromTimestamp\\(\\) expects float\\|int\\|string, mixed given\\.$#"
 			count: 1
 			path: app/Services/Prices/YahooClient.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Models\\\\Symbol\\:\\:where\\(\\)\\.$#"
-			count: 2
-			path: app/Services/Symbols/Resolver.php

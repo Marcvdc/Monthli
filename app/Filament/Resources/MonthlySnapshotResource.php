@@ -8,8 +8,8 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
-use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Table;
+use Filament\Actions\ExportAction;
 
 class MonthlySnapshotResource extends Resource
 {

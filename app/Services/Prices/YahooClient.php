@@ -9,6 +9,9 @@ use RuntimeException;
 
 class YahooClient
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function fetch(string $symbol): array
     {
         $key = "yahoo:{$symbol}";

@@ -7,6 +7,9 @@ use App\Services\Prices\EcbFxClient;
 
 class IngestFxRatesJob
 {
+    /**
+     * @param array<string> $quotes
+     */
     public function __construct(private array $quotes, private string $base = 'EUR') {}
 
     public function handle(EcbFxClient $client): void

@@ -7,10 +7,20 @@ RUN apt-get update && apt-get install -y \
     libonig5 \
     libxml2 \
     libpq5 \
-    libicu72 \
+    libicu74 \
     libzip4 \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* || \
+    # Fallback to generic package names if specific versions fail
+    (apt-get update && apt-get install -y \
+    libpng16-16 \
+    libonig5 \
+    libxml2 \
+    libpq5 \
+    libicu-dev \
+    libzip-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*)
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -34,11 +44,14 @@ WORKDIR /var/www
 # ===== BUILD STAGE =====
 FROM base AS build
 
-# Install build dependencies
+# Install build dependencies including Node.js
 RUN apt-get update && apt-get install -y \
     git \
     zip \
     unzip \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -49,8 +62,15 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader --no-dev
 
+# Copy package.json for npm dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci --production=false
+
 # Copy application files
 COPY . .
+
+# Build frontend assets
+RUN npm run build
 
 # Optimize composer autoloader and remove dev dependencies
 RUN composer install --optimize-autoloader --no-dev --no-scripts \

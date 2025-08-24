@@ -10,6 +10,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteBulkAction;
 
 class PositionResource extends Resource
 {
@@ -45,10 +47,10 @@ class PositionResource extends Resource
                 Tables\Columns\TextColumn::make('average_price'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ]);
     }
 

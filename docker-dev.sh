@@ -206,12 +206,29 @@ case "$1" in
         if is_step_done "deps_installed"; then
             echo "✅ Dependencies already installed (skipping)"
         else
+            # Install dev dependencies
             echo "📦 Installing composer dependencies..."
             if docker-compose exec -T app composer install --no-interaction; then
-                mark_step_done "deps_installed"
-                echo "✅ Dependencies installed"
+                echo "✅ Composer dependencies installed"
             else
-                handle_error "Dependency installation"
+                handle_error "Composer dependency installation"
+            fi
+            
+            # Install and build frontend assets
+            echo "🎨 Installing npm dependencies and building assets..."
+            if docker-compose exec -T app npm ci && docker-compose exec -T app npm run build; then
+                echo "✅ Frontend assets built"
+            else
+                handle_error "Frontend asset installation"
+            fi
+            
+            # Publish Filament assets
+            echo "🖼️ Publishing Filament assets..."
+            if docker-compose exec -T app php artisan filament:assets; then
+                mark_step_done "deps_installed"
+                echo "✅ Filament assets published"
+            else
+                handle_error "Filament asset publishing"
             fi
         fi
         
