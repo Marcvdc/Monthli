@@ -1,6 +1,6 @@
 FROM php:8.4-fpm
 
-# Install system dependencies (including dev tools)
+# Install system dependencies (including dev tools and gosu)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
+    gosu \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && apt-get clean \
@@ -28,6 +29,11 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
+# Copy development entrypoint and PHP-FPM config
+COPY docker/entrypoint-dev.sh /usr/local/bin/entrypoint-dev.sh
+COPY docker/php-fpm-dev.conf /usr/local/etc/php-fpm.d/zzz-custom.conf
+RUN chmod +x /usr/local/bin/entrypoint-dev.sh
+
 # Create Laravel directories
 RUN mkdir -p /var/www/storage/logs \
     /var/www/storage/framework/cache \
@@ -36,7 +42,6 @@ RUN mkdir -p /var/www/storage/logs \
     /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Don't run as root in development
-USER www-data
-
+# Use entrypoint to fix permissions, but run php-fpm as root
+ENTRYPOINT ["/usr/local/bin/entrypoint-dev.sh"]
 CMD ["php-fpm"]
