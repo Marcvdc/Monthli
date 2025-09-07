@@ -8,7 +8,14 @@ set -e
 case "$1" in
     "up")
         echo "🚀 Starting Monthli development environment..."
-        cp .env.docker .env 2>/dev/null || cp .env.example .env
+        # Handle .env file creation/update with proper permissions
+        if [ ! -f .env ]; then
+            cp .env.docker .env 2>/dev/null || cp .env.example .env
+        elif [ -w .env ]; then
+            cp .env.docker .env 2>/dev/null || echo "ℹ️  Using existing .env file"
+        else
+            echo "ℹ️  Using existing .env file (no write permissions)"
+        fi
         cd docker && docker-compose up -d
         echo "✅ Environment started! Visit http://localhost:8000"
         echo "📊 Services running:"
