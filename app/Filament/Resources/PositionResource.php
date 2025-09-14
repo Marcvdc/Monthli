@@ -42,9 +42,14 @@ class PositionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('portfolio.name')->label('Portfolio')->sortable(),
-                Tables\Columns\TextColumn::make('symbol')->searchable(),
-                Tables\Columns\TextColumn::make('quantity'),
-                Tables\Columns\TextColumn::make('average_price'),
+                Tables\Columns\TextColumn::make('name')->label('Product')->searchable()->limit(40),
+                Tables\Columns\TextColumn::make('identifier')
+                    ->label('Symbol/ISIN')
+                    ->getStateUsing(fn ($record) => $record->symbol ?: $record->isin)
+                    ->searchable(['symbol', 'isin'])
+                    ->copyable(),
+                Tables\Columns\TextColumn::make('quantity')->numeric(decimalPlaces: 2),
+                Tables\Columns\TextColumn::make('average_price')->money('EUR'),
             ])
             ->actions([
                 EditAction::make(),

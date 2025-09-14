@@ -20,7 +20,8 @@ class PortfolioPolicy
      */
     public function view(User $user, Portfolio $portfolio): bool
     {
-        return $user->id === $portfolio->user_id;
+        // Admin can view all portfolios, others can only view their own
+        return $user->email === 'admin@monthli.com' || $user->id === $portfolio->user_id;
     }
 
     /**
@@ -36,7 +37,7 @@ class PortfolioPolicy
      */
     public function update(User $user, Portfolio $portfolio): bool
     {
-        return $user->id === $portfolio->user_id;
+        return $user->email === 'admin@monthli.com' || $user->id === $portfolio->user_id;
     }
 
     /**
@@ -44,7 +45,7 @@ class PortfolioPolicy
      */
     public function delete(User $user, Portfolio $portfolio): bool
     {
-        return $user->id === $portfolio->user_id;
+        return $user->email === 'admin@monthli.com' || $user->id === $portfolio->user_id;
     }
 
     /**
@@ -52,7 +53,7 @@ class PortfolioPolicy
      */
     public function restore(User $user, Portfolio $portfolio): bool
     {
-        return $user->id === $portfolio->user_id;
+        return $user->email === 'admin@monthli.com' || $user->id === $portfolio->user_id;
     }
 
     /**
@@ -60,6 +61,6 @@ class PortfolioPolicy
      */
     public function forceDelete(User $user, Portfolio $portfolio): bool
     {
-        return $user->id === $portfolio->user_id;
+        return $user->email === 'admin@monthli.com' || $user->id === $portfolio->user_id;
     }
 }

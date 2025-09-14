@@ -1,16 +1,46 @@
 # Usage
 
-## Importing DEGIRO CSV
-1. In the Filament admin panel, go to **Positions**.
-2. Click **Import** and upload your `positions.csv` exported from DEGIRO.
-3. Repeat for transactions and dividends if available.
+## Enhanced DEGIRO Import Process
 
-CSV format (minimal columns):
+### 1. Setting Up Starting Balance
+Before importing transactions, establish your portfolio's starting positions:
+
+1. Export your portfolio from DEGIRO (Portfolio → Export → CSV)
+2. In the Filament admin panel, go to **Portfolios**
+3. Click **Import Starting Balance** on your portfolio
+4. Upload the DEGIRO portfolio CSV and set the balance date
+5. The system will clear existing positions and import your starting balance
+
+DEGIRO Portfolio CSV format:
 ```text
-positions.csv: isin,symbol,name,quantity,avg_price,currency
-transactions.csv: date,isin,symbol,side,quantity,price,fee,total,currency
-dividends.csv: date,isin,symbol,amount,withholding_tax,currency
+Product,Symbool/ISIN,Aantal,Slotkoers,Lokale waarde,,Waarde in EUR
+ASML Holding NV,NL0010273215,10,850.50,8505.00,,8505.00
+Apple Inc,AAPL,25,175.25,4381.25,,4381.25
 ```
+
+### 2. Importing Transaction History
+After setting starting balance, import your DEGIRO transaction exports:
+
+1. Export account overview from DEGIRO (Account → Export → CSV)
+2. Go to **Transactions** in the admin panel
+3. Click **Import DEGIRO CSV** and select your portfolio
+4. Upload your transaction CSV file
+
+DEGIRO Transaction CSV format (19 columns):
+```text
+Datum,Tijd,Product,ISIN,Beurs,Aantal,Koers,Totaal,Order ID,Valuta,FX,Valutakoers,Kosten,Totaal in EUR,...
+```
+
+### 3. Overlapping Uploads
+The system prevents duplicate imports through enhanced detection:
+- Transactions with Order IDs: matched by external_id
+- Transactions without Order IDs: matched by date + symbol/ISIN + quantity + price
+- Monthly CSV uploads are safe - duplicates will be automatically skipped
+
+### 4. Balance Date Coordination
+- Transactions before the portfolio's `balance_date` are imported but don't affect position calculations
+- Only transactions after `balance_date` update position quantities and average prices
+- This prevents double-counting when combining starting balances with transaction history
 
 ## Snapshots
 Take a monthly valuation snapshot for a portfolio:

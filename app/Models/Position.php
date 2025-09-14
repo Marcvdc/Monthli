@@ -28,6 +28,7 @@ class Position extends Model
     protected $fillable = [
         'portfolio_id',
         'symbol',
+        'name',
         'quantity',
         'average_price',
         'currency',

@@ -15,26 +15,12 @@ class ListPositions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('import')
-                ->label('Import')
-                ->form([
-                    Forms\Components\FileUpload::make('file')->required(),
-                ])
-                ->action(function (array $data): void {
-                    $path = $data['file'];
-                    $rows = array_map('str_getcsv', file($path));
-                    foreach ($rows as $row) {
-                        if (count($row) < 4) {
-                            continue;
-                        }
-                        Position::create([
-                            'portfolio_id' => $row[0],
-                            'symbol' => $row[1],
-                            'quantity' => $row[2],
-                            'average_price' => $row[3],
-                        ]);
-                    }
-                }),
+            Action::make('portfolios')
+                ->label('Import via Portfolio CSV')
+                ->icon('heroicon-o-arrow-top-right-on-square')
+                ->url('/admin/portfolios')
+                ->color('success')
+                ->tooltip('Import positions using DEGIRO Portfolio CSV format'),
         ];
     }
 }
