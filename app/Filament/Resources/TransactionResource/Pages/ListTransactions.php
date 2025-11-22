@@ -54,10 +54,12 @@ class ListTransactions extends ListRecords
                     }
                     
                     copy($sourcePath, $tempPath);
-                    
+
+                    $portfolio = Portfolio::findOrFail($data['portfolio_id']);
+
                     ImportDegiroCsvJob::dispatch(
                         $tempPath,
-                        $data['portfolio_id']
+                        $portfolio
                     );
                     
                     Notification::make()

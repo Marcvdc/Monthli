@@ -53,8 +53,10 @@ class TransactionResource extends Resource
                                 'TAX' => 'Tax',
                                 'FEE' => 'Fee',
                                 'INTEREST' => 'Interest',
-                                'DEPOSIT' => 'Deposit',
-                                'WITHDRAWAL' => 'Withdrawal',
+                                'CASH_IN' => 'Cash in (Deposit)',
+                                'CASH_OUT' => 'Cash out (Withdrawal)',
+                                'DEPOSIT' => 'Deposit (legacy)',
+                                'WITHDRAWAL' => 'Withdrawal (legacy)',
                                 'OTHER' => 'Other',
                             ])
                             ->required(),
@@ -139,8 +141,8 @@ class TransactionResource extends Resource
                 
                 Tables\Columns\BadgeColumn::make('type')
                     ->colors([
-                        'success' => ['BUY', 'DIVIDEND', 'INTEREST', 'DEPOSIT'],
-                        'danger' => ['SELL', 'TAX', 'FEE', 'WITHDRAWAL'],
+                        'success' => ['BUY', 'DIVIDEND', 'INTEREST', 'CASH_IN', 'DEPOSIT'],
+                        'danger' => ['SELL', 'TAX', 'FEE', 'CASH_OUT', 'WITHDRAWAL'],
                         'warning' => ['OTHER'],
                     ]),
                 
@@ -187,8 +189,10 @@ class TransactionResource extends Resource
                         'TAX' => 'Tax',
                         'FEE' => 'Fee',
                         'INTEREST' => 'Interest',
-                        'DEPOSIT' => 'Deposit',
-                        'WITHDRAWAL' => 'Withdrawal',
+                        'CASH_IN' => 'Cash in',
+                        'CASH_OUT' => 'Cash out',
+                        'DEPOSIT' => 'Deposit (legacy)',
+                        'WITHDRAWAL' => 'Withdrawal (legacy)',
                         'OTHER' => 'Other',
                     ])
                     ->multiple(),

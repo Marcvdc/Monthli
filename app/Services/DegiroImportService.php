@@ -7,6 +7,7 @@ use App\Models\Position;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class DegiroImportService
 {
@@ -44,6 +45,9 @@ class DegiroImportService
         'DIVIDEND' => 'DIVIDEND',
         'TAX' => 'TAX',
         'FEE' => 'FEE',
+        'CASH_IN' => 'CASH_IN',
+        'CASH_OUT' => 'CASH_OUT',
+        // Legacy aliases (handmatig ingevoerde transacties)
         'DEPOSIT' => 'DEPOSIT',
         'WITHDRAWAL' => 'WITHDRAWAL',
         'OTHER' => 'OTHER',
@@ -84,6 +88,11 @@ class DegiroImportService
             return $results;
         }
 
+        // Batch and file metadata for this import run
+        $importBatchId = (string) Str::uuid();
+        $sourceFileName = basename($filePath);
+        $sourceFileHash = hash_file('sha256', $filePath) ?: null;
+
         $rowNumber = 1;
         while (($row = fgetcsv($file)) !== false && $row !== null) {
             $rowNumber++;
@@ -92,6 +101,10 @@ class DegiroImportService
                 $transactionData = $this->parseRow($headers, $row, $portfolio);
                 
                 if ($transactionData) {
+                    // Attach batch and file metadata
+                    $transactionData['import_batch_id'] = $importBatchId;
+                    $transactionData['source_file_name'] = $sourceFileName;
+                    $transactionData['source_file_hash'] = $sourceFileHash;
                     // Check for duplicates
                     if ($this->isDuplicate($transactionData)) {
                         $results['duplicates']++;
@@ -100,13 +113,13 @@ class DegiroImportService
                     
                     $transaction = Transaction::create($transactionData);
             
-                // Update position after creating transaction
-                // Only update positions for transactions after balance_date to avoid double counting
-                if ($transaction->position_id && in_array($transaction->type, ['BUY', 'SELL']) && $this->shouldUpdatePosition($transaction, $portfolio)) {
-                    $this->updatePositionFromTransaction($transaction);
-                }
-                
-                $results['success']++;
+                    // Update position after creating transaction
+                    // Only update positions for transactions after balance_date to avoid double counting
+                    if ($transaction->position_id && in_array($transaction->type, ['BUY', 'SELL']) && $this->shouldUpdatePosition($transaction, $portfolio)) {
+                        $this->updatePositionFromTransaction($transaction);
+                    }
+                    
+                    $results['success']++;
                 }
             } catch (\Exception $e) {
                 $results['errors'][] = "Row {$rowNumber}: " . $e->getMessage();
@@ -201,20 +214,34 @@ class DegiroImportService
     {
         $quantity = (float) str_replace(',', '.', $data['Aantal'] ?: '0');
         $total = (float) str_replace(',', '.', $data['Totaal'] ?: '0');
+        $product = $data['Product'] ?? '';
         
-        // Determine type based on data patterns
+        // Determine type based on data patterns (see PLAN T1 mapping)
         if ($quantity > 0 && $total < 0) {
+            // BUY: Product != 'EUR', Aantal > 0, Totaal < 0
             return 'BUY';
-        } elseif ($quantity < 0 && $total > 0) {
+        }
+
+        if ($quantity < 0 && $total > 0) {
+            // SELL: Product != 'EUR', Aantal < 0, Totaal > 0
             return 'SELL';
-        } elseif ($quantity == 0 && $total > 0) {
-            // Could be dividend, deposit, etc.
-            if (!empty($data['Product']) && $data['Product'] !== 'EUR') {
+        }
+
+        if ($quantity == 0 && $total > 0) {
+            // DIVIDEND vs CASH_IN (storting)
+            if (!empty($product) && $product !== 'EUR') {
                 return 'DIVIDEND';
-            } else {
-                return 'DEPOSIT';
             }
-        } elseif ($quantity == 0 && $total < 0) {
+
+            return 'CASH_IN';
+        }
+
+        if ($quantity == 0 && $total < 0) {
+            // CASH_OUT (opname) of FEE
+            if ($product === 'EUR') {
+                return 'CASH_OUT';
+            }
+
             return 'FEE';
         }
         

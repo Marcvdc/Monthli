@@ -36,6 +36,9 @@ class Transaction extends Model
     protected $fillable = [
         'portfolio_id',
         'position_id',
+        'import_batch_id',
+        'source_file_name',
+        'source_file_hash',
         'type',
         'symbol',
         'isin',
