@@ -17,15 +17,16 @@ class SnapshotsBackfill extends Command
     {
         $fromArg = $this->argument('from');
         $toArg = $this->argument('to');
-        
+
         $from = Carbon::createFromFormat('Y-m', (string) $fromArg);
         $to = Carbon::createFromFormat('Y-m', (string) $toArg);
-        
-        if (!$from || !$to) {
+
+        if (! $from || ! $to) {
             $this->error('Invalid date format. Use Y-m format (e.g., 2024-01)');
+
             return self::FAILURE;
         }
-        
+
         $from = $from->startOfMonth();
         $to = $to->startOfMonth();
 

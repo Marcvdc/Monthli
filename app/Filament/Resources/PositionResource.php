@@ -5,13 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PositionResource\Pages;
 use App\Models\Position;
 use BackedEnum;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteBulkAction;
 
 class PositionResource extends Resource
 {

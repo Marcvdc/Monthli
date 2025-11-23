@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Position create(array $attributes = [])
  * @method static Position|null first(array $columns = ['*'])
  * @method \Illuminate\Database\Eloquent\Builder|Position orWhere(string $column, mixed $operator = null, mixed $value = null)
+ *
  * @property int $id
  * @property int $portfolio_id
  * @property string $symbol
