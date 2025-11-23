@@ -8,7 +8,7 @@ use App\Services\Prices\CoinGeckoClient;
 class IngestCryptoPricesJob
 {
     /**
-     * @param array<string> $symbols
+     * @param  array<string>  $symbols
      */
     public function __construct(private array $symbols) {}
 

@@ -49,18 +49,5 @@ services:
       - ..:/var/www
     environment:
       APP_ENV: local
-  
-  scheduler:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.dev
-    command: php artisan schedule:work
-    depends_on:
-      - redis
-      - postgres
-    volumes:
-      - ..:/var/www
-    environment:
-      APP_ENV: local
 volumes:
   postgres_data:

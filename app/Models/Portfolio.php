@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Portfolio create(array $attributes = [])
  * @method static \Illuminate\Database\Eloquent\Collection|Portfolio[] get(array $columns = ['*'])
  * @method static \Illuminate\Database\Eloquent\Collection|Portfolio[] all(array $columns = ['*'])
+ *
  * @property int $id
  * @property int $user_id
  * @property string $name

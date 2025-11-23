@@ -1,7 +1,7 @@
 # Multi-stage build for optimized production image
 FROM php:8.4-fpm AS base
 
-# Install runtime system dependencies including gosu for user switching
+# Install runtime system dependencies
 RUN apt-get update && apt-get install -y \
     libpng16-16 \
     libonig5 \
@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
     libpq5 \
     libicu74 \
     libzip4 \
-    gosu \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* || \
     # Fallback to generic package names if specific versions fail
@@ -20,7 +19,6 @@ RUN apt-get update && apt-get install -y \
     libpq5 \
     libicu-dev \
     libzip-dev \
-    gosu \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*)
 
@@ -97,7 +95,8 @@ RUN mkdir -p /var/www/storage/logs \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache \
     && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Note: Container starts as root to fix permissions, then switches to www-data via entrypoint
+# Switch to non-root user
+USER www-data
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["php-fpm"]

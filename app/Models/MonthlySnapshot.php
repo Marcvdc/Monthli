@@ -22,7 +22,6 @@ class MonthlySnapshot extends Model
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property Portfolio $portfolio
      */
-
     protected $fillable = [
         'portfolio_id',
         'month',
