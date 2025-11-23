@@ -51,83 +51,90 @@ class DegiroImportService
             'duplicates' => 0,
         ];
 
-        if (!file_exists($filePath)) {
-            $results['errors'][] = 'File not found: ' . $filePath;
+        if (! file_exists($filePath)) {
+            $results['errors'][] = 'File not found: '.$filePath;
+
             return $results;
         }
 
         $file = fopen($filePath, 'r');
         if ($file === false) {
-            $results['errors'][] = 'Cannot open file: ' . $filePath;
+            $results['errors'][] = 'Cannot open file: '.$filePath;
+
             return $results;
         }
         $headers = fgetcsv($file);
         if ($headers === false) {
             $results['errors'][] = 'Cannot read CSV headers';
             fclose($file);
+
             return $results;
         }
-        
+
         // Validate CSV headers
-        if (!$this->validateHeaders($headers)) {
-            $results['errors'][] = 'Invalid DEGIRO CSV format. Expected columns: ' . implode(', ', self::EXPECTED_COLUMNS);
+        if (! $this->validateHeaders($headers)) {
+            $results['errors'][] = 'Invalid DEGIRO CSV format. Expected columns: '.implode(', ', self::EXPECTED_COLUMNS);
             fclose($file);
+
             return $results;
         }
 
         $rowNumber = 1;
         while (($row = fgetcsv($file)) !== false && $row !== null) {
             $rowNumber++;
-            
+
             try {
                 $transactionData = $this->parseRow($headers, $row, $portfolio);
-                
+
                 if ($transactionData) {
                     // Check for duplicates
                     if ($this->isDuplicate($transactionData)) {
                         $results['duplicates']++;
+
                         continue;
                     }
-                    
+
                     Transaction::create($transactionData);
                     $results['success']++;
                 }
             } catch (\Exception $e) {
-                $results['errors'][] = "Row {$rowNumber}: " . $e->getMessage();
+                $results['errors'][] = "Row {$rowNumber}: ".$e->getMessage();
                 Log::error('DEGIRO import error', [
                     'row' => $rowNumber,
                     'data' => $row,
-                    'error' => $e->getMessage()
+                    'error' => $e->getMessage(),
                 ]);
             }
         }
 
         fclose($file);
+
         return $results;
     }
 
     /**
-     * @param array<string> $headers
+     * @param  array<string>  $headers
      */
     private function validateHeaders(array $headers): bool
     {
         foreach (self::EXPECTED_COLUMNS as $column) {
-            if (!in_array($column, $headers)) {
+            if (! in_array($column, $headers)) {
                 return false;
             }
         }
+
         return true;
     }
 
     /**
-     * @param array<string> $headers
-     * @param array<string> $row
+     * @param  array<string>  $headers
+     * @param  array<string>  $row
      * @return array<string, mixed>|null
      */
     private function parseRow(array $headers, array $row, Portfolio $portfolio): ?array
     {
         $data = array_combine($headers, $row);
-        
+
         // Skip empty or invalid rows
         if (empty($data['Datum']) || empty($data['Beschrijving'])) {
             return null;
@@ -135,10 +142,10 @@ class DegiroImportService
 
         // Parse date and time
         $dateTime = $this->parseDateTime($data['Datum'], $data['Tijd'] ?? '00:00');
-        
+
         // Determine transaction type
         $type = $this->parseTransactionType($data['Beschrijving']);
-        
+
         // Extract numeric values
         $quantity = $this->parseQuantity($data['Beschrijving']);
         $price = $this->parsePrice($data['Beschrijving']);
@@ -147,7 +154,7 @@ class DegiroImportService
 
         // Generate external ID from order ID or row hash
         $orderId = $data['Order Id'] ?? null;
-        $externalId = $orderId ?: 'degiro_' . md5(json_encode($data) ?: '');
+        $externalId = $orderId ?: 'degiro_'.md5(json_encode($data) ?: '');
 
         return [
             'portfolio_id' => $portfolio->id,
@@ -173,10 +180,11 @@ class DegiroImportService
     {
         // DEGIRO date format: dd-mm-yyyy
         // DEGIRO time format: HH:mm
-        $dateTime = Carbon::createFromFormat('d-m-Y H:i', $date . ' ' . $time);
-        if (!$dateTime) {
-            throw new \InvalidArgumentException('Invalid date format: ' . $date . ' ' . $time);
+        $dateTime = Carbon::createFromFormat('d-m-Y H:i', $date.' '.$time);
+        if (! $dateTime) {
+            throw new \InvalidArgumentException('Invalid date format: '.$date.' '.$time);
         }
+
         return $dateTime;
     }
 
@@ -187,7 +195,7 @@ class DegiroImportService
                 return $english;
             }
         }
-        
+
         // Default to OTHER if no type matched
         return 'OTHER';
     }
@@ -198,7 +206,7 @@ class DegiroImportService
         if (preg_match('/(\d+(?:[.,]\d+)?)(?:\s+stuks?)?/i', $description, $matches)) {
             return (float) str_replace(',', '.', $matches[1]);
         }
-        
+
         return 0;
     }
 
@@ -208,7 +216,7 @@ class DegiroImportService
         if (preg_match('/@\s*([0-9,]+\.?\d*)/i', $description, $matches)) {
             return (float) str_replace(',', '', $matches[1]);
         }
-        
+
         return 0;
     }
 
@@ -216,6 +224,7 @@ class DegiroImportService
     {
         // Parse balance amount (e.g., "1,250.50 EUR" or "-500.00")
         $cleanAmount = preg_replace('/[^\d.,-]/', '', $balance);
+
         return (float) str_replace(',', '', $cleanAmount ?? '');
     }
 
@@ -224,7 +233,7 @@ class DegiroImportService
         if (empty($fx) || $fx === '-') {
             return 1.0;
         }
-        
+
         return (float) str_replace(',', '.', $fx);
     }
 
@@ -234,7 +243,7 @@ class DegiroImportService
         if (preg_match('/\(([A-Z]{2,5})\)/', $product, $matches)) {
             return $matches[1];
         }
-        
+
         return null;
     }
 
@@ -242,13 +251,13 @@ class DegiroImportService
     {
         // Common currencies in DEGIRO
         $currencies = ['EUR', 'USD', 'GBP', 'CHF', 'CAD', 'AUD', 'JPY'];
-        
+
         foreach ($currencies as $currency) {
             if (stripos($description, $currency) !== false) {
                 return $currency;
             }
         }
-        
+
         return 'EUR'; // Default to EUR
     }
 
@@ -258,20 +267,20 @@ class DegiroImportService
         if (preg_match('/kosten[:\s]*([0-9,]+\.?\d*)/i', $description, $matches)) {
             return (float) str_replace(',', '.', $matches[1]);
         }
-        
+
         return 0;
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     private function findOrCreatePosition(Portfolio $portfolio, array $data): ?int
     {
         $product = $data['Product'] ?? '';
         $symbol = $this->extractSymbol(is_string($product) ? $product : '');
         $isin = $data['ISIN'] ?? null;
-        
-        if (!$symbol && !$isin) {
+
+        if (! $symbol && ! $isin) {
             return null; // Can't create position without identifier
         }
 
@@ -286,7 +295,7 @@ class DegiroImportService
         });
         $position = $query->first();
 
-        if (!$position && $symbol) {
+        if (! $position && $symbol) {
             $position = Position::create([
                 'portfolio_id' => $portfolio->id,
                 'symbol' => $symbol,
@@ -300,7 +309,7 @@ class DegiroImportService
     }
 
     /**
-     * @param array<string, mixed> $transactionData
+     * @param  array<string, mixed>  $transactionData
      */
     private function isDuplicate(array $transactionData): bool
     {

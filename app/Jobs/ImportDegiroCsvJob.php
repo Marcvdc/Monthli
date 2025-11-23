@@ -14,6 +14,7 @@ class ImportDegiroCsvJob implements ShouldQueue
     use Queueable;
 
     protected string $csvFilePath;
+
     protected Portfolio $portfolio;
 
     /**
@@ -33,10 +34,10 @@ class ImportDegiroCsvJob implements ShouldQueue
         try {
             // Get the full path to the uploaded file
             $fullPath = Storage::path($this->csvFilePath);
-            
+
             Log::info('Starting DEGIRO CSV import', [
                 'portfolio_id' => $this->portfolio->id,
-                'file_path' => $this->csvFilePath
+                'file_path' => $this->csvFilePath,
             ]);
 
             // Import CSV using the service
@@ -47,7 +48,7 @@ class ImportDegiroCsvJob implements ShouldQueue
                 'portfolio_id' => $this->portfolio->id,
                 'success' => $results['success'],
                 'duplicates' => $results['duplicates'],
-                'errors_count' => count($results['errors'])
+                'errors_count' => count($results['errors']),
             ]);
 
             // Clean up the temporary file
@@ -57,12 +58,12 @@ class ImportDegiroCsvJob implements ShouldQueue
             Log::error('DEGIRO CSV import failed', [
                 'portfolio_id' => $this->portfolio->id,
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             // Clean up the temporary file on error too
             Storage::delete($this->csvFilePath);
-            
+
             throw $e;
         }
     }

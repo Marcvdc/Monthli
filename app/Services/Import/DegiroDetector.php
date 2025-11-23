@@ -32,7 +32,7 @@ class DegiroDetector
         }
 
         $fields = array_map(
-            static fn (?string $value): string => strtolower($value ?? ''), 
+            static fn (?string $value): string => strtolower($value ?? ''),
             str_getcsv($header, ',', '"', '\\')
         );
 

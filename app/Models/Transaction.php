@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction find(int|string $id, array $columns = ['*'])
  * @method static Transaction create(array $attributes = [])
  * @method bool exists()
+ *
  * @property int $id
  * @property Portfolio $portfolio
  * @property Position $position_id

@@ -4,9 +4,9 @@ namespace App\Filament\Resources\PositionResource\Pages;
 
 use App\Filament\Resources\PositionResource;
 use App\Models\Position;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Actions\Action;
 
 class ListPositions extends ListRecords
 {

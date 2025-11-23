@@ -40,7 +40,7 @@ return new class extends Migration
                 'fees',
                 'venue',
                 'description',
-                'raw_data'
+                'raw_data',
             ]);
         });
     }
