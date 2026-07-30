@@ -1,9 +1,31 @@
-# Monthli — Privacy-First Portfolio Tracker (Laravel + Filament)
+# Monthli — Laravel/Filament referentieproject
+
+> ### Status: bevroren (juli 2026)
+>
+> **Dit is geen SaaS en wordt niet actief onderhouden.** Monthli is een publiek
+> referentieproject in Laravel 12 / Filament v4 / PostgreSQL 16 / Redis + Horizon / Docker,
+> met tests en GitHub Actions CI. Je kunt het lokaal draaien en de code lezen; er is geen
+> gehoste dienst, geen registratie en geen support.
+>
+> De commerciële ambitie is in juli 2026 gesloten na marktonderzoek. De onderbouwing —
+> concurrentieanalyse, marktomvang, betalingsbereidheid en de rekensom — staat in
+> [MARKTONDERZOEK.md](MARKTONDERZOEK.md). Korte versie: de differentiator (DEGIRO-CSV,
+> privacy-first, geen broker-credentials) is inmiddels gratis verkrijgbaar bij TrackinV en
+> voor €29 eenmalig sterker uitgevoerd bij FolioInsights.
+>
+> **Zoek je wél een werkende portfolio tracker?** Kijk naar
+> [Portfolio Dividend Tracker](https://portfoliodividendtracker.com) (NL),
+> [TrackinV](https://trackinv.com), [FolioInsights](https://folioinsights.app),
+> [Capitalyse](https://capitalyse.app), of — self-hosted en open source —
+> [Ghostfolio](https://github.com/ghostfolio/ghostfolio) en
+> [Portfolio Performance](https://www.portfolio-performance.info).
+>
+> Pull requests worden niet meer beoordeeld. Fork vrij: Apache-2.0.
 
 Privacy-first portfolio tracker. Import your broker CSV (e.g. DEGIRO), fetch daily prices automatically, and get clear monthly performance reports (MoM %, inflows/outflows, dividends). Built with Laravel + Filament.
 
 Import your broker CSV (e.g., DEGIRO), fetch daily prices (Yahoo/CoinGecko/ECB), and get monthly performance reports (MoM %, inflows/outflows, dividends).
-Stack: Laravel 11, Filament v3/v4, PostgreSQL, Redis/Horizon, Docker.
+Stack: Laravel 12, Filament v4, PostgreSQL 16, Redis/Horizon, Docker, PHP 8.4.
 
 Features
 - CSV import (DEGIRO NL/EN) — positions, transactions, dividends (idempotent).
@@ -75,6 +97,13 @@ Configuration under `config/security.php` demonstrates encrypted API keys, secur
 
 ## Development Status
 
+> **Historisch — stand van augustus/november 2025, niet bijgewerkt.** De faseplanning hieronder
+> is nooit afgemaakt en de statusvinkjes zijn optimistisch: de kern-importflow werkt niet
+> end-to-end op `main` (de echte importcode zat in PR #53, die ongemerged is gesloten),
+> `tests/Feature/ImportFlowTest.php` is een stub, en er is geen registratie, multi-tenancy of
+> publieke webinterface — alle functionaliteit zit in het Filament-adminpanel. Fase 5 en 6
+> komen er niet.
+
 ### Phase 1: Foundation ✅ COMPLETE
 - ✅ Docker-compose + PostgreSQL setup
 - ✅ Laravel + Filament skeleton with auth & users
@@ -92,12 +121,12 @@ Configuration under `config/security.php` demonstrates encrypted API keys, secur
 - ✅ CSV upload UI in admin panel ("Import DEGIRO CSV" button)
 - ✅ Filament v4 compatibility fixes
 
-**Next Session Priority:**
-- 🔧 Debug CSV import flow - investigate why imported data isn't appearing
-- 🔧 Fix Docker permission issues - resolve log/tinker command errors  
-- 🔧 Test with real DEGIRO CSV files end-to-end
+**Bekende problemen op het moment van bevriezen (niet opgelost):**
+- 🔧 CSV-importflow: geïmporteerde data verschijnt niet — nooit uitgezocht
+- 🔧 Docker-permissieproblemen bij log-/tinker-commando's
+- 🔧 Nooit end-to-end getest met echte DEGIRO-CSV-bestanden
 
-**Remaining:**
+**Niet gebouwd:**
 - Add CSV file upload validation
 - Implement transaction data validation rules
 - Add transaction validation error reporting

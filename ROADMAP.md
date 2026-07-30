@@ -1,5 +1,10 @@
 # 🚀 Roadmap – Monthli
 
+> **Vervallen (juli 2026).** Deze roadmap wordt niet meer uitgevoerd; het project is bevroren.
+> De vinkjes hieronder zijn bovendien te optimistisch — zie de statusnotitie in
+> [README.md](README.md) en de motivatie in [MARKTONDERZOEK.md](MARKTONDERZOEK.md).
+> Bewaard als historisch document.
+
 ## Docker Setup & Infrastructure 🟢 **RECENTLY COMPLETED**
 - [x] Complete Docker environment (PHP 8.4, PostgreSQL 16, Redis, Nginx)
 - [x] Docker development scripts (`docker-dev.sh`)
