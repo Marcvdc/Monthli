@@ -15,7 +15,10 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "8000:80"
+      # WEB_PORT laat parallelle worktree-stacks een eigen host-poort kiezen.
+      # Default 8000 → hoofd-dev gedraagt zich exact zoals voorheen.
+      # Zie scripts/worktree-setup.sh en .ai/guidelines/parallel-worktrees.md.
+      - "${WEB_PORT:-8000}:80"
     depends_on:
       - app
     volumes:
