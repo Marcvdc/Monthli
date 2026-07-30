@@ -10,13 +10,14 @@ set -euo pipefail
 #   [base-branch] : optioneel, basis-branch voor de worktree (default: main)
 #
 # Belangrijk (verschilt subtiel van de hoofd-dev flow):
-# - De worktree draait NIET via ./docker-dev.sh up. Die helper kopieert
-#   .env.docker over .env heen en zou de per-worktree APP_URL wegvagen.
-#   Gebruik in een worktree altijd rechtstreeks:
+# - Draai compose vanuit de docker/ map van de worktree:
 #       cd docker && docker compose up -d
-# - Docker Compose leest zijn eigen variabelen (COMPOSE_PROJECT_NAME, WEB_PORT)
-#   uit docker/.env in de worktree. De root .env blijft de Laravel-config die in
-#   de container gemount wordt (/var/www/.env). Twee losse bestanden, twee rollen.
+#   (./docker-dev.sh up is sinds de .env-guard ook veilig binnen een worktree.)
+# - Docker Compose leest zijn eigen variabelen uit docker/.env in de worktree:
+#   COMPOSE_PROJECT_NAME (isolatie), COMPOSE_FILE (laadt de worktree-override die de
+#   DB-poort publiceert), WEB_PORT en DB_FORWARD_PORT. De root .env blijft de
+#   Laravel-config die in de container gemount wordt (/var/www/.env). Twee bestanden,
+#   twee rollen.
 # - Poorten starten op 18081 (basis 18080 + 1) om conflicten te vermijden met de
 #   Monthli hoofd-dev (8000) en met AimTrack-worktrees (19080+). De poort wordt
 #   automatisch gekozen als 'hoogste reeds toegewezen WEB_PORT + 1' (high-water-mark)
@@ -85,6 +86,11 @@ else
   WEB_PORT=$((MAX_PORT + 1))
 fi
 
+# DB-forward host-poort, gekoppeld aan WEB_PORT zodat hij net zo uniek is.
+# Basis 15500 (ruim boven AimTrack's DB-range 15432+); eerste worktree → 15501.
+DB_BASE_PORT=15500
+DB_FORWARD_PORT=$((DB_BASE_PORT + WEB_PORT - BASE_PORT))
+
 if ! git rev-parse --verify --quiet "$BASE_BRANCH" >/dev/null; then
   echo "Basis-branch '$BASE_BRANCH' bestaat niet lokaal. Run 'git fetch' of geef een geldige branch op als 3e argument." >&2
   exit 1
@@ -121,15 +127,16 @@ cat > "$WORKTREE_PATH/docker/.env" <<EOF
 # Docker Compose variabele overrides (auto-gegenereerd door scripts/worktree-setup.sh)
 # Gelezen door 'docker compose' vanuit de docker/ map van deze worktree.
 COMPOSE_PROJECT_NAME=${PROJECT_NAME}
+# COMPOSE_FILE laadt de worktree-override mee, die de Postgres-poort naar de host
+# publiceert. De hoofd-dev heeft geen docker/.env en laadt deze override dus niet.
+COMPOSE_FILE=docker-compose.yml:docker-compose.worktree.yml
 WEB_PORT=${WEB_PORT}
+DB_FORWARD_PORT=${DB_FORWARD_PORT}
 EOF
 
 cat <<EOF
 
 ==> Worktree klaar: $WORKTREE_PATH
-
-LET OP: gebruik in de worktree NIET './docker-dev.sh up' (die overschrijft .env).
-Draai compose rechtstreeks vanuit de docker/ map.
 
 Volgende stappen:
   cd $WORKTREE_PATH/docker
@@ -138,8 +145,9 @@ Volgende stappen:
   docker compose exec app php artisan migrate --seed
 
 Toegangs-URL's:
-  Web:   http://localhost:${WEB_PORT}
-  Admin: http://localhost:${WEB_PORT}/admin
+  Web:      http://localhost:${WEB_PORT}
+  Admin:    http://localhost:${WEB_PORT}/admin
+  Postgres: localhost:${DB_FORWARD_PORT}  (db: monthli · user: monthli · pass: secret)
 
 Project name: ${PROJECT_NAME}  (containers/volumes/netwerk zijn hiermee geïsoleerd)
 

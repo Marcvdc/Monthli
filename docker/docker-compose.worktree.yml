@@ -1,0 +1,15 @@
+# docker/docker-compose.worktree.yml
+#
+# Compose-override die ALLEEN door worktree-stacks wordt geladen. De worktree
+# docker/.env zet `COMPOSE_FILE=docker-compose.yml:docker-compose.worktree.yml`,
+# waardoor 'docker compose' deze override automatisch meeneemt. De hoofd-dev heeft
+# geen docker/.env (dus geen COMPOSE_FILE) en laadt deze override NIET — daardoor
+# blijft de Postgres van de hoofd-dev intern en claimt hij nooit host-poort 5432.
+#
+# Doel: de Postgres van deze worktree op een unieke host-poort publiceren, zodat je
+# er met een externe DB-client (TablePlus, DBeaver, psql, ...) op kunt aansluiten.
+# DB_FORWARD_PORT wordt door scripts/worktree-setup.sh in docker/.env gezet.
+services:
+  postgres:
+    ports:
+      - "${DB_FORWARD_PORT:?DB_FORWARD_PORT ontbreekt — deze override hoort alleen via scripts/worktree-setup.sh geladen te worden}:5432"

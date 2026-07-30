@@ -8,7 +8,13 @@ set -e
 case "$1" in
     "up")
         echo "🚀 Starting Monthli development environment..."
-        cp .env.docker .env 2>/dev/null || cp .env.example .env
+        # Bestaande .env niet overschrijven: in een worktree is .env op maat gemaakt
+        # (APP_URL op de worktree-poort). Alleen aanmaken als hij nog ontbreekt.
+        if [ -f .env ]; then
+            echo "ℹ️  Bestaande .env gevonden — niet overschreven."
+        else
+            cp .env.docker .env 2>/dev/null || cp .env.example .env
+        fi
         cd docker && docker-compose up -d
         echo "✅ Environment started! Visit http://localhost:8000"
         echo "📊 Services running:"
@@ -113,6 +119,10 @@ case "$1" in
         # Step 1: Environment file
         if is_step_done "env_configured"; then
             echo "✅ Environment file already configured (skipping)"
+        elif [ -f .env ]; then
+            # Bestaande .env respecteren (o.a. worktree met .env op maat).
+            mark_step_done "env_configured"
+            echo "ℹ️  Bestaande .env gevonden — niet overschreven"
         else
             echo "📝 Configuring environment file..."
             if cp .env.docker .env 2>/dev/null || cp .env.example .env; then

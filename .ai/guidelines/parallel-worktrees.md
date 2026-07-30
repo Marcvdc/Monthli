@@ -44,7 +44,7 @@ Schrijf plan-/scratch-bestanden **in de worktree**, niet in de hoofdrepo. Het pl
 Het script:
 1. Maakt `../monthli-<feature>` aan met branch `feature/<feature>` (default basis `main`)
 2. Kopieert `.env.docker` (fallback `.env.example`) naar de worktree als **root `.env`** (Laravel-config) en stemt `APP_URL` af op de worktree-poort
-3. Maakt een **aparte `docker/.env`** in de worktree met de compose-overrides (`COMPOSE_PROJECT_NAME`, `WEB_PORT`)
+3. Maakt een **aparte `docker/.env`** in de worktree met de compose-overrides (`COMPOSE_PROJECT_NAME`, `COMPOSE_FILE`, `WEB_PORT`, `DB_FORWARD_PORT`) — `COMPOSE_FILE` laadt automatisch de worktree-override die de DB-poort publiceert
 4. Print de URL's en cleanup-instructies
 
 Vervolgens (let op: **vanuit de `docker/` map van de worktree**):
@@ -56,14 +56,14 @@ docker compose exec app php artisan key:generate --force
 docker compose exec app php artisan migrate --seed
 ```
 
-> De worktree-flow gebruikt de **Docker Compose v2-plugin** (`docker compose`, met spatie). De oudere hoofd-dev helper `docker-dev.sh` gebruikt nog het v1-binary (`docker-compose`); beide lezen `.env` identiek uit de working directory, maar zorg dat de v2-plugin geïnstalleerd is.
+> De worktree-flow gebruikt de **Docker Compose v2-plugin** (`docker compose`, met spatie). De oudere hoofd-dev helper `docker-dev.sh` gebruikt nog het v1-binary (`docker-compose`) maar overschrijft sinds de `.env`-guard geen bestaande `.env` meer, dus is ook binnen een worktree veilig; de aanbevolen flow blijft rechtstreeks `docker compose`. Beide lezen `docker/.env` identiek uit de working directory — zorg wel dat de v2-plugin geïnstalleerd is.
 
 ## Twee `.env`-bestanden, twee rollen
 
 | Bestand | Wie leest het | Inhoud |
 |---|---|---|
 | `<worktree>/.env` | Laravel (gemount als `/var/www/.env`) | volledige app-config, `APP_URL` op de worktree-poort |
-| `<worktree>/docker/.env` | `docker compose` (working dir = `docker/`) | alleen `COMPOSE_PROJECT_NAME` + `WEB_PORT` |
+| `<worktree>/docker/.env` | `docker compose` (working dir = `docker/`) | `COMPOSE_PROJECT_NAME`, `COMPOSE_FILE`, `WEB_PORT`, `DB_FORWARD_PORT` |
 
 Compose leest **niet** de root `.env`; Laravel leest **niet** `docker/.env`. Ze staan los van elkaar. Beide zijn via `.gitignore` (regel `.env`) uitgesloten van commits.
 
@@ -71,12 +71,12 @@ Compose leest **niet** de root `.env`; Laravel leest **niet** `docker/.env`. Ze 
 
 - Alleen de **nginx-poort** wordt naar de host gepubliceerd (`WEB_PORT`, default 8000, worktrees 18081+).
 - De poort wordt automatisch toegewezen als **hoogste reeds gebruikte `WEB_PORT` + 1** (high-water-mark over `../monthli-*/docker/.env`). Daardoor is het veilig om een worktree te verwijderen: een nieuwe worktree pakt nooit de poort van een nog-actieve stack terug. Wil je toch een vaste poort forceren, geef dan een expliciete `offset` mee (2e argument) → poort = `18080 + offset`.
-- Postgres en Redis worden **niet** naar de host gepubliceerd. Ze zijn per worktree geïsoleerd doordat elke stack een eigen `COMPOSE_PROJECT_NAME` heeft → eigen containers, volumes en netwerk. De app bereikt ze intern via `postgres:5432` / `redis:6379`.
-- Wil je een DB-client rechtstreeks op één worktree-database aansluiten, dan is een per-worktree DB-forward-poort nodig — dat is bewust nog niet ingebouwd (zie "Vervolgpad / opties" onderaan).
+- **Postgres** wordt per worktree naar de host gepubliceerd op `DB_FORWARD_PORT` (basis 15500, worktrees 15501+), zodat je met een DB-client (TablePlus/DBeaver/psql) op precies die worktree-database kunt aansluiten (db `monthli` · user `monthli` · pass `secret`). Dit loopt via `docker/docker-compose.worktree.yml`, die **alleen** in worktrees wordt geladen (via `COMPOSE_FILE` in `docker/.env`). De hoofd-dev laadt die override niet en publiceert Postgres dus **niet** — host-poort 5432 blijft vrij.
+- **Redis** wordt niet naar de host gepubliceerd; de app bereikt hem intern via `redis:6379`.
+- Alle services zijn sowieso per worktree geïsoleerd doordat elke stack een eigen `COMPOSE_PROJECT_NAME` heeft → eigen containers, volumes en netwerk.
 
 ## Verboden
 
-- **Niet** `./docker-dev.sh up` (of `setup`) in een worktree draaien — die helper kopieert `.env.docker` over `.env` heen en vaagt de per-worktree `APP_URL` weg. Draai in een worktree altijd rechtstreeks `docker compose` vanuit `docker/`.
 - **Niet** handmatig worktrees aanmaken zonder het script — dan lopen de poort-administratie en `.env`-isolatie uit de pas.
 - **Niet** dezelfde branch in twee worktrees checkouten (Git verbiedt dit, maar zelf opletten).
 - **Niet** plan-files of feature-werk in de hoofdrepo plaatsen — zie "Hoofdrepo-discipline".
@@ -96,9 +96,9 @@ Vergeet de registry hieronder niet bij te werken.
 
 ## Registry van actieve worktrees
 
-| Feature | Branch | Pad | Web | Project name | Status |
-|---|---|---|---|---|---|
-| _hoofd-dev_ | `main` | `Monthli/` | 8000 | `docker` | actief |
+| Feature | Branch | Pad | Web | DB | Project name | Status |
+|---|---|---|---|---|---|---|
+| _hoofd-dev_ | `main` | `Monthli/` | 8000 | — (intern) | `docker` | actief |
 
 Update deze tabel bij setup en cleanup — zo weet iedereen direct welke poort bij welke stack hoort.
 
@@ -109,6 +109,4 @@ Dit guideline-bestand staat in git, dus elke developer en elke Claude-sessie vol
 ## Vervolgpad / opties (nog te beslissen)
 
 - **`develop`-integratiebranch** invoeren en het script daarop laten defaulten.
-- **Per-worktree DB-forward-poort** toevoegen (postgres naar host publiceren) zodat een DB-GUI per worktree kan verbinden — vergt een compose-override zodat de hoofd-dev geen 5432 op de host claimt.
-- **`docker-dev.sh` worktree-bewust** maken (bijv. `.env` niet overschrijven als die al bestaat) zodat de helper ook binnen een worktree veilig is.
 - **AimTrack backporten**: AimTrack's `worktree-setup.sh` gebruikt nog de oude teloffset (`git worktree list | wc -l`) die na het verwijderen van een middelste worktree een poort kan hergebruiken. De high-water-mark-fix uit dit script is daar de moeite waard.
